@@ -1,0 +1,52 @@
+{
+	"name": "orisai/exceptions",
+	"description": "Base exceptions designed for static analysis and easy usage",
+	"keywords": [
+		"exceptions",
+		"orisai",
+		"phpstan"
+	],
+	"type": "library",
+	"license": "MPL-2.0",
+	"homepage": "https://github.com/orisai/exceptions",
+	"authors": [
+		{
+			"name": "Marek Bartoš",
+			"homepage": "https://github.com/mabar"
+		}
+	],
+	"require": {
+		"php": ">=7.1.0 <8.2.0"
+	},
+	"require-dev": {
+		"orisai/coding-standard": "^1.0.0",
+		"pepakriz/phpstan-exception-rules": "^0.10.0",
+		"phpstan/extension-installer": "^1.0.0",
+		"phpstan/phpstan": "^0.12.0",
+		"phpstan/phpstan-deprecation-rules": "^0.12.0",
+		"phpstan/phpstan-phpunit": "^0.12.0",
+		"phpstan/phpstan-strict-rules": "^0.12.0",
+		"phpunit/phpunit": "^7.5.0",
+		"staabm/annotate-pull-request-from-checkstyle": "^1.1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Orisai\\Exceptions\\": "src"
+		}
+	},
+	"autoload-dev": {
+	  "psr-4": {
+		"Tests\\Orisai\\Exceptions\\": "tests"
+	  }
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}
