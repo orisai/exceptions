@@ -1,0 +1,28 @@
+<ruleset
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="./../vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+	<!-- Show only relevant part of path -->
+	<arg name="basepath" value="./.."/>
+
+	<!-- Configure cache -->
+	<arg name="cache" value="./../var/tmp/codesniffer.dat"/>
+
+	<!-- Import coding-standard -->
+	<rule ref="./../vendor/orisai/coding-standard/src/ruleset-7.1.xml"/>
+
+	<!-- Configure PSR-4 rule -->
+	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+		<properties>
+			<property name="rootNamespaces" type="array">
+				<element key="src" value="Orisai\Exceptions"/>
+				<element key="tests" value="Tests\Orisai\Exceptions"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException">
+		<exclude-pattern>src/ConfigurableException.php</exclude-pattern>
+	</rule>
+
+</ruleset>

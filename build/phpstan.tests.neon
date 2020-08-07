@@ -1,0 +1,11 @@
+includes:
+	- phpstan.base.neon
+
+parameters:
+	level: 1
+
+	ignoreErrors:
+		# Intentional, tests reporting
+		- message: '#^Missing \@throws Tests\\Orisai\\Exceptions\\Fixtures\\ExampleUserError annotation$#'
+		  path: %currentWorkingDirectory%/tests/Unit/Check/CheckedExceptionTest.php
+		  count: 1

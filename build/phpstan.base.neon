@@ -1,0 +1,10 @@
+includes:
+	- ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+	tmpDir: ../var/tmp/PHPStan
+
+	exceptionRules:
+		reportUnusedCatchesOfUncheckedExceptions: true
+		checkedExceptions:
+			- Orisai\Exceptions\Check\CheckedException
