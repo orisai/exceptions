@@ -8,23 +8,16 @@ use function explode;
 use function mb_strlen;
 use function str_repeat;
 use function strpos;
-use function version_compare;
 use function wordwrap;
-use const PHP_VERSION;
 
 final class Message
 {
 
 	private const LINE_LENGTH = 80;
 
-	/** @var string|null */
-	public $context;
-
-	/** @var string|null */
-	public $problem;
-
-	/** @var string|null */
-	public $solution;
+	public ?string $context = null;
+	public ?string $problem = null;
+	public ?string $solution = null;
 
 	public static function create(): self
 	{
@@ -109,13 +102,8 @@ final class Message
 			return $message;
 		}
 
-		if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
-			throw new InvalidState(
-				'Error message must specify at least one context, problem or solution.'
-			);
-		}
-
-		return '__NO ERROR MESSAGE SPECIFIED_';
+		throw InvalidState::create()
+			->withMessage('Error message must specify at least one context, problem or solution.');
 	}
 
 }

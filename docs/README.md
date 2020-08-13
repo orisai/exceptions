@@ -51,11 +51,8 @@ use Orisai\Exceptions\DomainException;
 final class AccountBalanceTooLow extends DomainException
 {
 
-    /** @var Account */
-    private $account;
-
-    /** @var Money */
-    private $neededAmount;
+    private Account $account;
+    private Money $neededAmount;
 
     public function __construct(Account $account, Money $neededAmount)
     {
