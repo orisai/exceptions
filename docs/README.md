@@ -16,10 +16,8 @@ Base exceptions designed for static analysis and easy usage
 All of our exceptions use `ConfigurableException` trait which allows to add message, code and previous exception through fluent interface.
 
 ```php
-use Orisai\Exceptions\Logic\InvalidArgument;
-
-throw (new InvalidArgument())
-    ->withMessage('Argument is out of range')
+throw (new ExampleError())
+    ->withMessage('I am error message')
     ->withPrevious($previousException)
     ->withCode(666);
 ```
@@ -28,22 +26,23 @@ It nicely works in combination with static constructor which is implemented by a
 and which is recommended to implement by [checked exceptions](#checkedexception)
 
 ```php
-throw (new InvalidArgument())
-    ->withMessage('Argument is out of range');
+throw (new ExampleError())
+    ->withMessage('I am error message');
 ```
 
 turns into
 
 ```php
-throw InvalidArgument::create()
-    ->withMessage('Argument is out of range');
+throw ExampleError::create()
+    ->withMessage('I am error message');
 ```
 
 ## CheckedException
 
 Exceptions which are used to represent a single domain-specific error caused by user interaction.
 Checked exceptions are intended to be handled. They should always be catched or listed in annotations and catched in higher layers.
-All of them implement interface `CheckedException`.
+All of them must implement interface `CheckedException`.
+You may also extend `DomainException` which implements `CheckedException`, disables default constructor and uses `ConfigurableException` trait.
 
 ```php
 use Orisai\Exceptions\DomainException;
@@ -54,16 +53,13 @@ final class AccountBalanceTooLow extends DomainException
     private Account $account;
     private Money $neededAmount;
 
-    public function __construct(Account $account, Money $neededAmount)
-    {
-        parent::__construct();
-        $this->account = $account;
-        $this->neededAmount = $neededAmount;
-    }
-
     public static function create(Account $account, Money $neededAmount): self
     {
-        return new self($account, $neededAmount);
+        $self = new self();
+        $self->account = $account;
+        $self->neededAmount = $neededAmount;
+
+        return $self;
     }
 
     public function getAccount(): Account
@@ -84,7 +80,8 @@ If you want add message, code or previous exception to error you can use [fluent
 ## UncheckedException
 
 Generic exceptions used for errors in code which should likely be fixed. They should have at least error message.
-All of them implement interface `UncheckedException`.
+All of them must implement interface `UncheckedException`.
+You may also extend `LogicalException` which implements `UncheckedException`, disables default constructor and uses `ConfigurableException` trait.
 
 We currently provide following unchecked exceptions:
 
