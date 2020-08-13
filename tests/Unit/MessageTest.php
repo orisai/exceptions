@@ -36,9 +36,8 @@ final class MessageTest extends TestCase
 Context: context
 Problem: problem
 Solution: solution
-MSG
-			,
-			(string) $message
+MSG,
+			(string) $message,
 		);
 	}
 
@@ -57,9 +56,8 @@ Problem: This is really, really, really long problem. Lorem ipsum dolor sit
          amet. I don't know what more to write.
 Solution: This is really, really, really long solution. Lorem ipsum dolor sit
           amet. I don't know what more to write. But result looks really nice.
-MSG
-			,
-			(string) $message
+MSG,
+			(string) $message,
 		);
 	}
 
@@ -71,8 +69,7 @@ This message
 is already
 formatted into
 multiple lines.
-MSG
-			);
+MSG);
 
 		self::assertSame(
 			<<<'MSG'
@@ -80,9 +77,8 @@ Context: This message
          is already
          formatted into
          multiple lines.
-MSG
-			,
-			(string) $message
+MSG,
+			(string) $message,
 		);
 	}
 
@@ -96,7 +92,7 @@ MSG
 
 		self::assertSame(
 			'Context: context',
-			$exception->getMessage()
+			$exception->getMessage(),
 		);
 	}
 
