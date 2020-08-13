@@ -21,6 +21,7 @@
 		</properties>
 	</rule>
 
+	<!-- Exception reflection is needed to access `previous` property -->
 	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException">
 		<exclude-pattern>src/ConfigurableException.php</exclude-pattern>
 	</rule>

@@ -7,4 +7,12 @@ use Orisai\Exceptions\LogicalException;
 final class InvalidArgument extends LogicalException
 {
 
+	/**
+	 * @return static
+	 */
+	public static function create(): self
+	{
+		return new static();
+	}
+
 }
