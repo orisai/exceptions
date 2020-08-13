@@ -18,7 +18,9 @@ final class UncheckedExceptionTest extends TestCase
 		$this->expectExceptionCode(666);
 		$this->expectExceptionMessage('test');
 
-		throw new Deprecated('test', 666);
+		throw Deprecated::create()
+			->withMessage('test')
+			->withCode(666);
 	}
 
 	public function testInvalidArgumentException(): void
@@ -27,7 +29,9 @@ final class UncheckedExceptionTest extends TestCase
 		$this->expectExceptionCode(666);
 		$this->expectExceptionMessage('test');
 
-		throw new InvalidArgument('test', 666);
+		throw InvalidArgument::create()
+			->withMessage('test')
+			->withCode(666);
 	}
 
 	public function testInvalidStateException(): void
@@ -36,7 +40,9 @@ final class UncheckedExceptionTest extends TestCase
 		$this->expectExceptionCode(666);
 		$this->expectExceptionMessage('test');
 
-		throw new InvalidState('test', 666);
+		throw InvalidState::create()
+			->withMessage('test')
+			->withCode(666);
 	}
 
 	public function testNotImplementedException(): void
@@ -45,7 +51,9 @@ final class UncheckedExceptionTest extends TestCase
 		$this->expectExceptionCode(666);
 		$this->expectExceptionMessage('test');
 
-		throw new NotImplemented('test', 666);
+		throw NotImplemented::create()
+			->withMessage('test')
+			->withCode(666);
 	}
 
 	public function testShouldNotHappenException(): void
@@ -54,7 +62,9 @@ final class UncheckedExceptionTest extends TestCase
 		$this->expectExceptionCode(666);
 		$this->expectExceptionMessage('test');
 
-		throw new ShouldNotHappen('test', 666);
+		throw ShouldNotHappen::create()
+			->withMessage('test')
+			->withCode(666);
 	}
 
 }
