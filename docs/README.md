@@ -89,8 +89,9 @@ We currently provide following unchecked exceptions:
 - `Deprecated` - method is no longer supported, implementation was removed
 - `InvalidArgument` - argument does not match with expected value
 - `InvalidState` - method call is invalid for the object's current state
+- `MemberInaccessible` - property or method is not accessible - not visible from calling scope nor by magic method
 - `NotImplemented` - method is not implemented
-- `ShouldNotHappen` - for cases which should never happen but it's safer or easier to read with that "dead" branch of code
+- `ShouldNotHappen` - for cases which should never happen, but it's safer or easier to read with that "dead" branch of code
 
 ## Messages
 
