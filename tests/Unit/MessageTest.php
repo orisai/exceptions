@@ -44,9 +44,15 @@ MSG,
 	public function testMultiLine(): void
 	{
 		$message = Message::create()
-			->withContext('This is really, really, really long context. Lorem ipsum dolor sit amet. I don\'t know what more to write.')
-			->withProblem('This is really, really, really long problem. Lorem ipsum dolor sit amet. I don\'t know what more to write.')
-			->withSolution('This is really, really, really long solution. Lorem ipsum dolor sit amet. I don\'t know what more to write. But result looks really nice.');
+			->withContext(
+				'This is really, really, really long context. Lorem ipsum dolor sit amet. I don\'t know what more to write.',
+			)
+			->withProblem(
+				'This is really, really, really long problem. Lorem ipsum dolor sit amet. I don\'t know what more to write.',
+			)
+			->withSolution(
+				'This is really, really, really long solution. Lorem ipsum dolor sit amet. I don\'t know what more to write. But result looks really nice.',
+			);
 
 		self::assertSame(
 			<<<'MSG'
