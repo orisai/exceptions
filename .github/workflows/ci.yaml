@@ -149,7 +149,7 @@ jobs:
         strategy:
             matrix:
                 php-versions: ["7.4"]
-                operating-system: ["ubuntu-latest"]
+                operating-system: ["ubuntu-latest", "macos-latest", "windows-latest"]
             fail-fast: false
 
         steps:
@@ -207,7 +207,7 @@ jobs:
         strategy:
             matrix:
                 php-versions: ["7.4"]
-                operating-system: ["ubuntu-latest"]
+                operating-system: ["ubuntu-latest", "macos-latest", "windows-latest"]
             fail-fast: false
 
         steps:
