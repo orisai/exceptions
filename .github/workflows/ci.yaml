@@ -10,7 +10,6 @@ on:
 
 env:
     extensions: "json"
-    cacheVersion: "1"
 
 jobs:
     coding-standard:
@@ -33,7 +32,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-versions }}"
                     extensions: "${{ env.extensions }}"
-                    key: "${{ env.cacheVersion }}"
+                    key: "${{ env.extensions }}"
 
             -   name: "Cache PHP extensions"
                 uses: "actions/cache@v2"
@@ -98,7 +97,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-versions }}"
                     extensions: "${{ env.extensions }}"
-                    key: "${{ env.cacheVersion }}"
+                    key: "${{ env.extensions }}"
 
             -   name: "Cache PHP extensions"
                 uses: "actions/cache@v2"
@@ -163,7 +162,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-versions }}"
                     extensions: "${{ env.extensions }}"
-                    key: "${{ env.cacheVersion }}"
+                    key: "${{ env.extensions }}"
 
             -   name: "Cache PHP extensions"
                 uses: "actions/cache@v2"
@@ -221,7 +220,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-versions }}"
                     extensions: "${{ env.extensions }}"
-                    key: "${{ env.cacheVersion }}"
+                    key: "${{ env.extensions }}"
 
             -   name: "Cache PHP extensions"
                 uses: "actions/cache@v2"
@@ -280,7 +279,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php-versions }}"
                     extensions: "${{ env.extensions }}"
-                    key: "${{ env.cacheVersion }}"
+                    key: "${{ env.extensions }}"
 
             -   name: "Cache PHP extensions"
                 uses: "actions/cache@v2"
