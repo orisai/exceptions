@@ -7,8 +7,10 @@ use function count;
 use function explode;
 use function mb_strlen;
 use function str_repeat;
+use function str_replace;
 use function strpos;
 use function wordwrap;
+use const PHP_EOL;
 
 final class Message
 {
@@ -58,7 +60,7 @@ final class Message
 		if ($message === null) {
 			$message = $this->formatPart($title, $content);
 		} else {
-			$message .= "\n";
+			$message .= PHP_EOL;
 			$message .= $this->formatPart($title, $content);
 		}
 
@@ -69,13 +71,16 @@ final class Message
 	{
 		$titleLength = mb_strlen($title);
 
-		if (strpos($content, "\n") === false) {
+		if (strpos($content, PHP_EOL) === false) {
 			$content = wordwrap($content, self::LINE_LENGTH - $titleLength);
+			if (PHP_EOL !== "\n") {
+				$content = str_replace("\n", PHP_EOL, $content);
+			}
 		}
 
 		$formatted = '';
 		$i = 0;
-		$lines = explode("\n", $content);
+		$lines = explode(PHP_EOL, $content);
 		foreach ($lines as $line) {
 			$formatted .= $i === 0
 				? $title
@@ -85,7 +90,7 @@ final class Message
 			$i++;
 
 			if (count($lines) !== $i) {
-				$formatted .= "\n";
+				$formatted .= PHP_EOL;
 			}
 		}
 
