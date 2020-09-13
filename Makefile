@@ -31,3 +31,12 @@ coverage-clover: ## Generate code coverage in XML format
 
 coverage-html: ## Generate code coverage in HTML format
 	php -d pcov.enabled=1 -d pcov.directory=./src vendor/bin/phpunit -c build/phpunit.xml --coverage-html var/coverage/coverage-html $(ARGS)
+
+mutations: ## Check code for mutants
+	php -d pcov.enabled=1 -d pcov.directory=./src vendor/bin/phpunit -c build/phpunit.xml --coverage-xml=var/coverage/coverage-xml --log-junit=var/coverage/junit.xml
+	vendor/bin/infection \
+		--configuration=build/infection.json \
+		--threads=$(nproc) \
+		--coverage=../var/coverage \
+		--skip-initial-tests \
+		$(ARGS)

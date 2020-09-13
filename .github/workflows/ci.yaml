@@ -344,3 +344,102 @@ jobs:
         run: |
           composer global require php-coveralls/php-coveralls
           php-coveralls -v --config build/.coveralls.yml
+
+  tests-mutations:
+    name: "Test for mutants"
+    runs-on: "${{ matrix.operating-system }}"
+
+    strategy:
+      matrix:
+        php-version: [ "7.4" ]
+        operating-system: [ "ubuntu-latest" ]
+
+    if: "github.event_name == 'push'"
+
+    steps:
+      - name: "Check if other steps should be executed"
+        uses: "actions/github-script@v3"
+        id: "should-run"
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          result-encoding: "string"
+          script: |
+            result = await github.repos.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            })
+            ref = 'refs/heads/' + result.data.default_branch;
+            return ref === context.ref ? 'yes' : 'no';
+
+      - name: "Checkout"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        uses: "actions/checkout@v2"
+
+      - name: "Create PHP extensions cache key"
+        uses: "actions/github-script@v3"
+        id: "php-extensions-cache-key"
+        with:
+          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          result-encoding: "string"
+
+      - name: "Setup PHP cache environment"
+        id: "php-extensions-cache"
+        uses: "shivammathur/cache-extensions@v1"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "${{ env.php-extensions }}"
+          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
+
+      - name: "Cache PHP extensions"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        uses: "actions/cache@v2"
+        with:
+          path: "${{ steps.php-extensions-cache.outputs.dir }}"
+          key: "${{ steps.php-extensions-cache.outputs.key }}"
+          restore-keys: "${{ steps.php-extensions-cache.outputs.key }}"
+
+      - name: "Install PHP"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "${{ env.php-extensions }}"
+          tools: "${{ env.php-tools }}"
+
+      - name: "Setup problem matchers for PHP"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        run: 'echo "::add-matcher::${{ runner.tool_cache }}/php.json"'
+
+      - name: "Get Composer cache directory"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        id: "php-composer-cache"
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+
+      - name: "Cache PHP dependencies"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        uses: "actions/cache@v2"
+        with:
+          path: "${{ steps.php-composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-composer-${{  hashFiles('**/composer.json', '**/composer.lock') }}"
+          restore-keys: "${{ runner.os }}-composer-"
+
+      - name: "Install PHP dependencies"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable"
+
+      - name: "Setup problem matchers for PHPUnit"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        run: 'echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"'
+
+      - name: "Mutation tests"
+        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        env:
+          STRYKER_DASHBOARD_API_KEY: "${{ secrets.STRYKER_DASHBOARD_API_KEY }}"
+        run: "make mutations"
+
+      - name: "Upload logs"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "Logs"
+          path: "var/logs"
+          if-no-files-found: "ignore"

@@ -1,0 +1,17 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "var/logs/infection.log",
+		"badge": {
+			"branch": "v1.x"
+		}
+    },
+	"tmpDir": "../var/build-tools/infection",
+    "mutators": {
+        "@default": true
+    }
+}
