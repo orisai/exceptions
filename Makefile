@@ -9,10 +9,10 @@ all:
 qa: cs phpstan ## Check code quality - coding style and static analysis
 
 cs: ## Check PHP files coding style
-	"vendor/bin/phpcs" src tests --standard=build/ruleset.xml $(ARGS)
+	"vendor/bin/phpcs" src tests --standard=build/phpcs.xml $(ARGS)
 
 csf: ## Fix PHP files coding style
-	"vendor/bin/phpcbf" src tests --standard=build/ruleset.xml $(ARGS)
+	"vendor/bin/phpcbf" src tests --standard=build/phpcs.xml $(ARGS)
 
 phpstan: ## Analyse code with PHPStan
 	"vendor/bin/phpstan" analyse src -c build/phpstan.src.neon $(ARGS)
