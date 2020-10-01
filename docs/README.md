@@ -1,6 +1,6 @@
 # Exceptions
 
-Base exceptions designed for static analysis and easy usage
+Exceptions designed for static analysis and easy usage
 
 ## Content
 

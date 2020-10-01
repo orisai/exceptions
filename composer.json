@@ -1,6 +1,6 @@
 {
 	"name": "orisai/exceptions",
-	"description": "Base exceptions designed for static analysis and easy usage",
+	"description": "Exceptions designed for static analysis and easy usage",
 	"keywords": [
 		"exceptions",
 		"orisai",
