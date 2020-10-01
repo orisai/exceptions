@@ -1,7 +1,7 @@
 <h1 align="center">Orisai Exceptions</h1>
 
 <p align="center">
-    Base exceptions designed for static analysis and easy usage
+    Exceptions designed for static analysis and easy usage
 </p>
 
 <p align=center>
