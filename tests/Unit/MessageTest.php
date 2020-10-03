@@ -2,6 +2,7 @@
 
 namespace Tests\Orisai\Exceptions\Unit;
 
+use Orisai\Exceptions\Logic\InvalidState;
 use Orisai\Exceptions\Logic\ShouldNotHappen;
 use Orisai\Exceptions\Message;
 use PHPUnit\Framework\TestCase;
@@ -100,6 +101,17 @@ MSG,
 			'Context: context',
 			$exception->getMessage(),
 		);
+	}
+
+	public function testMissingParameters(): void
+	{
+		$message = Message::create();
+
+		$this->expectException(InvalidState::class);
+		$this->expectExceptionMessage('Error message must specify at least one of context, problem or solution.');
+
+		ShouldNotHappen::create()
+			->withMessage((string) $message);
 	}
 
 }

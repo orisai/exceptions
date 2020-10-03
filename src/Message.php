@@ -74,7 +74,9 @@ final class Message
 		if (strpos($content, PHP_EOL) === false) {
 			$content = wordwrap($content, self::LINE_LENGTH - $titleLength);
 			if (PHP_EOL !== "\n") {
+				// @codeCoverageIgnoreStart
 				$content = str_replace("\n", PHP_EOL, $content);
+				// @codeCoverageIgnoreEnd
 			}
 		}
 
@@ -108,7 +110,7 @@ final class Message
 		}
 
 		throw InvalidState::create()
-			->withMessage('Error message must specify at least one context, problem or solution.');
+			->withMessage('Error message must specify at least one of context, problem or solution.');
 	}
 
 }
