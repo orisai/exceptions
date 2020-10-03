@@ -7,12 +7,9 @@ use Orisai\Exceptions\LogicalException;
 final class MemberInaccessible extends LogicalException
 {
 
-	/**
-	 * @return static
-	 */
 	public static function create(): self
 	{
-		return new static();
+		return new self();
 	}
 
 }
