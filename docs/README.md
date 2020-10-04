@@ -41,8 +41,8 @@ throw ExampleError::create()
 
 Exceptions which are used to represent a single domain-specific error caused by user interaction.
 Checked exceptions are intended to be handled. They should always be catched or listed in annotations and catched in higher layers.
-All of them must implement interface `CheckedException`.
-You may also extend `DomainException` which implements `CheckedException`, disables default constructor and uses `ConfigurableException` trait.
+All of them must implement interface `CheckedException` and should extend `\RuntimeException`.
+You may also extend `DomainException` which implements `CheckedException`, extends `\RuntimeException`, disables default constructor and uses `ConfigurableException` trait.
 
 ```php
 use Orisai\Exceptions\DomainException;

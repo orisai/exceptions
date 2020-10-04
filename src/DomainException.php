@@ -2,11 +2,11 @@
 
 namespace Orisai\Exceptions;
 
-use Exception;
 use Orisai\Exceptions\Check\CheckedException;
+use RuntimeException;
 use Throwable;
 
-abstract class DomainException extends Exception implements CheckedException
+abstract class DomainException extends RuntimeException implements CheckedException
 {
 
 	use ConfigurableException;
