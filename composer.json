@@ -16,7 +16,8 @@
 		}
 	],
 	"require": {
-		"php": ">=7.4.0"
+		"php": ">=7.4.0",
+		"ext-mbstring": "*"
 	},
 	"require-dev": {
 		"orisai/coding-standard": "^1.0.0",
