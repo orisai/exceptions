@@ -106,7 +106,7 @@ $message = Message::create()
     ->withSolution('Check that the import files are not empty, and that filters are not too restrictive.');
 
 throw InvalidState::create()
-    ->withMessage((string) $message);
+    ->withMessage($message);
 ```
 
 `Message` casted to string looks like this:
