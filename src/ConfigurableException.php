@@ -4,6 +4,7 @@ namespace Orisai\Exceptions;
 
 use Exception;
 use ReflectionClass;
+use Stringable;
 use Throwable;
 
 /**
@@ -23,11 +24,12 @@ trait ConfigurableException
 	}
 
 	/**
+	 * @param string|Stringable $message
 	 * @return static
 	 */
-	public function withMessage(string $message)
+	public function withMessage($message)
 	{
-		$this->message = $message;
+		$this->message = (string) $message;
 
 		return $this;
 	}

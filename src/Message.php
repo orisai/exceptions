@@ -3,6 +3,7 @@
 namespace Orisai\Exceptions;
 
 use Orisai\Exceptions\Logic\InvalidState;
+use Stringable;
 use function count;
 use function explode;
 use function mb_strlen;
@@ -12,7 +13,7 @@ use function strpos;
 use function wordwrap;
 use const PHP_EOL;
 
-final class Message
+final class Message implements Stringable
 {
 
 	private const LINE_LENGTH = 80;
