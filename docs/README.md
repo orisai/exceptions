@@ -4,45 +4,54 @@ Exceptions designed for static analysis and easy usage
 
 ## Content
 
-- [ConfigurableException](#configurableexception)
-- [CheckedException](#checkedexception)
-- [UncheckedException](#uncheckedexception)
+- [Fluent interface](#fluent-interface)
+- [Types of exceptions](#types-of-exceptions)
+    - [Checked exception](#checked-exception)
+    - [Unchecked exception](#unchecked-exception)
 - [Messages](#messages)
 - [Exception suffix](#exception-suffix)
-- [PHPStan integration](#phpstan-integration)
+- [Exceptions as part of the function signature](#exceptions-as-part-of-the-function-signature)
+    - [PHPStan exception rules](#phpstan-exception-rules)
 
-## ConfigurableException
+## Fluent interface
 
 All of our exceptions use `ConfigurableException` trait which allows to add message, code and previous exception through fluent interface.
 
 ```php
 throw (new ExampleError())
-    ->withMessage('I am error message')
+    ->withMessage('Error message')
     ->withPrevious($previousException)
     ->withCode(666);
 ```
 
-It nicely works in combination with static constructor which is implemented by all [unchecked exceptions](#uncheckedexception)
-and which is recommended to implement by [checked exceptions](#checkedexception)
+It nicely works in combination with static constructor which is implemented by all [unchecked exceptions](#unchecked-exception)
+and which is recommended to implement by [checked exceptions](#checked-exception)
 
 ```php
 throw (new ExampleError())
-    ->withMessage('I am error message');
+    ->withMessage('Error message');
 ```
 
 turns into
 
 ```php
 throw ExampleError::create()
-    ->withMessage('I am error message');
+    ->withMessage('Error message');
 ```
 
-## CheckedException
+## Types of exceptions
 
-Exceptions which are used to represent a single domain-specific error caused by user interaction.
-Checked exceptions are intended to be handled. They should always be catched or listed in annotations and catched in higher layers.
-All of them must implement interface `CheckedException` and should extend `\RuntimeException`.
-You may also extend `DomainException` which implements `CheckedException`, extends `\RuntimeException`, disables default constructor and uses `ConfigurableException` trait.
+### Checked exception
+
+Exceptions which are used to represent an error caused by user interaction.
+- All of them must implement interface `CheckedException` and should extend `\RuntimeException`.
+    - You may also extend `DomainException` which implements `CheckedException`, extends `\RuntimeException`, disables default constructor and uses `ConfigurableException` trait.
+- Checked exceptions are intended to be handled. They should always be catched or listed in annotations and catched in higher layers.
+- The way they are handled is up to you - report the error to user, use a fallback strategy, log the error, or a combination thereof.
+- They must be [part of the function signature](#exceptions-as-part-of-the-function-signature).
+- They should be always as specific as possible.
+    - e.g. `ExpiredToken` exception which implements `InvalidToken` interface allows more granular handling than `InvalidToken` exception which does not explain what exactly is wrong with the token.
+    - In case exception is part of an interface then interface signature should specify supertype of exception (`InvalidToken`) which implementations can throw instead of subtypes (`ExpiredToken`, `UnknownToken`, `AlreadyAppliedToken`).
 
 ```php
 use Orisai\Exceptions\DomainException;
@@ -75,13 +84,19 @@ final class AccountBalanceTooLow extends DomainException
 }
 ```
 
-If you want add message, code or previous exception to error you can use [fluent interface](#configurableexception).
+If you want add message, code or previous exception to error you can use [fluent interface](#fluent-interface).
 
-## UncheckedException
+### Unchecked exception
 
-Generic exceptions used for errors in code which should likely be fixed. They should have at least error message.
-All of them must implement interface `UncheckedException`.
-You may also extend `LogicalException` which implements `UncheckedException`, disables default constructor and uses `ConfigurableException` trait.
+Generic exceptions used for programming errors which should likely be fixed.
+- All of them must implement interface `UncheckedException`.
+    - You may also extend `LogicalException` which implements `UncheckedException`, extends `\LogicException`, disables default constructor and uses `ConfigurableException` trait.
+- They should have at least error message.
+- In perfectly written code they should never occur.
+- Handling of unchecked exceptions should be done by an error handler, e.g. [Tracy debugger](https://tracy.nette.org).
+    - Only valid reason to catch them is to add some additional debug info. In this case new exception must be thrown with original exception added as previous (`$new->withPrevious($previous)`).
+- They should not be [part of the function signature](#exceptions-as-part-of-the-function-signature).
+- Unless the exception subclass covers a common use case, e.g. adds useful info via name or property or the exception has valid reason to be catched then an existing uncatched exception should be used.
 
 We currently provide following unchecked exceptions:
 
@@ -133,11 +148,22 @@ typing the `Exception` part should not be required
 what should we except from class `Validation`? Exception name describes where is the problem but not what is the problem.
 It forces us to think about the name. What about `InvalidData`? Now source of the problem is obvious which makes the suffix superfluous.
 
-## PHPStan integration
+## Exceptions as part of the function signature
 
-We use [phpstan-exception-rules](https://github.com/pepakriz/phpstan-exception-rules) to check all checked exceptions are properly handled.
+One of the main reasons why [checked exceptions](#checked-exception) exist is they provide an easy way how to enforce user errors to be added into function signature.
 
-Install package and add following configuration:
+Enforcement is achieved via static analysis. Officially supported are [PHPStan exception rules](#phpstan-exception-rules) but other tools may support that as well.
+Only requirement is to configure thrown `CheckedException` to be either catched or added into method signature.
+
+This approach will not work in case code is not called directly and caller don't know which code will be executed.
+Usual cases where this happen are controller actions executed by router, events dispatched by event dispatcher or message handlers executed by message bus.
+In these cases the called code should never throw any exceptions unless they are part of the interface which is known by calling code.
+
+### PHPStan exception rules
+
+We use [PHPStan](https://phpstan.org) with [phpstan-exception-rules](https://github.com/pepakriz/phpstan-exception-rules) to check all checked exceptions are properly handled.
+
+Install package and add following configuration to your `phpstan.neon`:
 
 ```yaml
 parameters:
