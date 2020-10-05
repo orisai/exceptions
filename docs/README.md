@@ -4,6 +4,7 @@ Exceptions designed for static analysis and easy usage
 
 ## Content
 
+- [Setup](#setup)
 - [Fluent interface](#fluent-interface)
 - [Types of exceptions](#types-of-exceptions)
     - [Checked exception](#checked-exception)
@@ -12,6 +13,14 @@ Exceptions designed for static analysis and easy usage
 - [Exception suffix](#exception-suffix)
 - [Exceptions as part of the function signature](#exceptions-as-part-of-the-function-signature)
     - [PHPStan exception rules](#phpstan-exception-rules)
+
+## Setup
+
+Install with [Composer](https://getcomposer.org)
+
+```sh
+composer require orisai/exceptions
+```
 
 ## Fluent interface
 
