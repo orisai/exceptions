@@ -1,4 +1,4 @@
 # for php-coveralls
 service_name: github-actions
-coverage_clover: var/tmp/coverage.xml
-json_path: var/tmp/coverage.json
+coverage_clover: var/coverage/clover.xml
+json_path: var/coverage/coveralls-upload.json

@@ -2,7 +2,7 @@
 		 xsi:noNamespaceSchemaLocation="./../vendor/phpunit/phpunit/phpunit.xsd"
 		 bootstrap="../vendor/autoload.php"
 		 beStrictAboutOutputDuringTests="true"
-		 cacheResultFile="../var/tmp/.phpunit.result.cache"
+		 cacheResultFile="../var/build-tools/.phpunit.result.cache"
 		 colors="true"
 		 failOnRisky="true"
 		 failOnWarning="true"
