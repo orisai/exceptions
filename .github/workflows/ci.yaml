@@ -215,6 +215,13 @@ jobs:
       - name: "Tests"
         run: "make tests"
 
+      - name: "Upload logs"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "Logs"
+          path: "var/logs"
+          if-no-files-found: "ignore"
+
   tests-code-coverage:
     name: "Tests with code coverage"
     runs-on: "${{ matrix.operating-system }}"
