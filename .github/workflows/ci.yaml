@@ -73,7 +73,7 @@ jobs:
       - name: "Cache Codesniffer data"
         uses: "actions/cache@v2"
         with:
-          path: "var/tmp/codesniffer.dat"
+          path: "var/build-tools/codesniffer.dat"
           key: "${{ runner.os }}-codesniffer"
           restore-keys: "${{ runner.os }}-codesniffer"
 
@@ -139,7 +139,7 @@ jobs:
       - name: "Cache PHPStan data"
         uses: "actions/cache@v2"
         with:
-          path: "var/tmp/PHPStan"
+          path: "var/build-tools/PHPStan"
           key: "${{ runner.os }}-phpstan"
           restore-keys: "${{ runner.os }}-phpstan"
 

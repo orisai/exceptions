@@ -4,7 +4,6 @@
 build export-ignore
 docs export-ignore
 tests export-ignore
-var export-ignore
 
 .editorconfig export-ignore
 .gitattributes export-ignore
