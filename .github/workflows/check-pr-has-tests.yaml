@@ -1,0 +1,34 @@
+name: "Check PR has tests"
+
+on:
+  pull_request:
+    types: [ "opened" ]
+
+jobs:
+  comment:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check directories for changes"
+        uses: "dorny/paths-filter@v2"
+        id: "changes"
+        with:
+          filters: |
+            src:
+              - 'src/**'
+            tests:
+              - 'tests/**'
+
+      - name: "Create comment"
+        if: "steps.changes.outputs.src == 'true' && steps.changes.outputs.tests == 'false'"
+        uses: "actions/github-script@v3"
+        with:
+          github-token: "${{secrets.GITHUB_TOKEN}}"
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `This PR modifies source code but not the tests.
+                     It will be most likely not accepted unless code changes are covered by tests.
+                     I am sorry if modifications cannot be tested or do not need to be. I am just a simple bot.`
+            })
