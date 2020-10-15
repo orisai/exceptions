@@ -15,17 +15,17 @@ final class MessageTest extends TestCase
 		$message = Message::create()
 			->withContext('context');
 
-		self::assertSame('Context: context', (string) $message);
+		self::assertSame('Context: context', $message->toString());
 
 		$message = Message::create()
 			->withProblem('problem');
 
-		self::assertSame('Problem: problem', (string) $message);
+		self::assertSame('Problem: problem', $message->toString());
 
 		$message = Message::create()
 			->withSolution('solution');
 
-		self::assertSame('Solution: solution', (string) $message);
+		self::assertSame('Solution: solution', $message->toString());
 
 		$message = Message::create()
 			->withContext('context')
@@ -38,7 +38,7 @@ Context: context
 Problem: problem
 Solution: solution
 MSG,
-			(string) $message,
+			$message->toString(),
 		);
 	}
 
@@ -64,7 +64,7 @@ Problem: This is really, really, really long problem. Lorem ipsum dolor sit
 Solution: This is really, really, really long solution. Lorem ipsum dolor sit
           amet. I don't know what more to write. But result looks really nice.
 MSG,
-			(string) $message,
+			$message->toString(),
 		);
 	}
 
@@ -85,7 +85,7 @@ Context: This message
          formatted into
          multiple lines.
 MSG,
-			(string) $message,
+			$message->toString(),
 		);
 	}
 
@@ -95,11 +95,27 @@ MSG,
 			->withContext('context');
 
 		$exception = ShouldNotHappen::create()
-			->withMessage((string) $message);
+			->withMessage($message->toString());
 
 		self::assertSame(
 			'Context: context',
 			$exception->getMessage(),
+		);
+	}
+
+	public function testToString(): void
+	{
+		$message = Message::create()
+			->withContext('context');
+
+		self::assertSame(
+			'Context: context',
+			$message->toString(),
+		);
+
+		self::assertSame(
+			(string) $message,
+			$message->toString(),
 		);
 	}
 
@@ -111,7 +127,7 @@ MSG,
 		$this->expectExceptionMessage('Error message must specify at least one of context, problem or solution.');
 
 		ShouldNotHappen::create()
-			->withMessage((string) $message);
+			->withMessage($message->toString());
 	}
 
 }

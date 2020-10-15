@@ -100,6 +100,14 @@ final class Message implements Stringable
 		return $formatted;
 	}
 
+	public function toString(): string
+	{
+		return (string) $this;
+	}
+
+	/**
+	 * @internal
+	 */
 	public function __toString(): string
 	{
 		$message = $this->addPart('Context: ', $this->context, null);
