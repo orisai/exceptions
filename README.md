@@ -5,7 +5,7 @@
 </p>
 
 <p align=center>
-  <a href="https://github.com/orisai/exceptions/actions"><img src="https://github.com/orisai/exceptions/workflows/ci/badge.svg"></a>
+  <a href="https://github.com/orisai/exceptions/actions?query=workflow%3Aci"><img src="https://github.com/orisai/exceptions/workflows/ci/badge.svg"></a>
   <a href="https://coveralls.io/r/orisai/exceptions"><img src="https://badgen.net/coveralls/c/github/orisai/exceptions/v1.x?cache=300"></a>
   <a href="https://packagist.org/packages/orisai/exceptions"><img src="https://badgen.net/packagist/dt/orisai/exceptions?cache=3600"></a>
   <a href="https://packagist.org/packages/orisai/exceptions"><img src="https://badgen.net/packagist/v/orisai/exceptions?cache=3600"></a>
