@@ -3,9 +3,13 @@ name: "ci"
 on:
   pull_request:
     types: [ "opened", "synchronize", "edited", "reopened" ]
+    paths-ignore:
+      - "docs/**"
   push:
     branches:
       - "v[0-9]+.[0-9x]+"
+    paths-ignore:
+      - "docs/**"
   schedule:
     - cron: "0 8 * * 1" # At 08:00 on Monday
 
