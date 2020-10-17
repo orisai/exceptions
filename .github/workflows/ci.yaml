@@ -28,13 +28,20 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v2"
 
+      - name: "Create PHP extensions cache key"
+        uses: "actions/github-script@v3"
+        id: "php-extensions-cache-key"
+        with:
+          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          result-encoding: "string"
+
       - name: "Setup PHP cache environment"
         id: "php-extensions-cache"
         uses: "shivammathur/cache-extensions@v1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.php-extensions }}"
-          key: "${{ env.php-extensions }}"
+          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
 
       - name: "Cache PHP extensions"
         uses: "actions/cache@v2"
@@ -94,13 +101,20 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v2"
 
+      - name: "Create PHP extensions cache key"
+        uses: "actions/github-script@v3"
+        id: "php-extensions-cache-key"
+        with:
+          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          result-encoding: "string"
+
       - name: "Setup PHP cache environment"
         id: "php-extensions-cache"
         uses: "shivammathur/cache-extensions@v1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.php-extensions }}"
-          key: "${{ env.php-extensions }}"
+          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
 
       - name: "Cache PHP extensions"
         uses: "actions/cache@v2"
@@ -170,13 +184,20 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v2"
 
+      - name: "Create PHP extensions cache key"
+        uses: "actions/github-script@v3"
+        id: "php-extensions-cache-key"
+        with:
+          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          result-encoding: "string"
+
       - name: "Setup PHP cache environment"
         id: "php-extensions-cache"
         uses: "shivammathur/cache-extensions@v1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.php-extensions }}"
-          key: "${{ env.php-extensions }}"
+          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
 
       - name: "Cache PHP extensions"
         uses: "actions/cache@v2"
@@ -252,14 +273,20 @@ jobs:
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
         uses: "actions/checkout@v2"
 
+      - name: "Create PHP extensions cache key"
+        uses: "actions/github-script@v3"
+        id: "php-extensions-cache-key"
+        with:
+          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          result-encoding: "string"
+
       - name: "Setup PHP cache environment"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
         id: "php-extensions-cache"
         uses: "shivammathur/cache-extensions@v1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.php-extensions }}"
-          key: "${{ env.php-extensions }}"
+          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
 
       - name: "Cache PHP extensions"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
