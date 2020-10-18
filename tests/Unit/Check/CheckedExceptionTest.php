@@ -3,7 +3,7 @@
 namespace Tests\Orisai\Exceptions\Unit\Check;
 
 use PHPUnit\Framework\TestCase;
-use Tests\Orisai\Exceptions\Fixtures\ExampleUserError;
+use Tests\Orisai\Exceptions\Doubles\ExampleUserError;
 
 final class CheckedExceptionTest extends TestCase
 {

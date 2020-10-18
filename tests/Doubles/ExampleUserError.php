@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\Orisai\Exceptions\Fixtures;
+namespace Tests\Orisai\Exceptions\Doubles;
 
 use Orisai\Exceptions\DomainException;
 
