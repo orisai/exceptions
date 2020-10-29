@@ -9,11 +9,11 @@ all:
 qa: cs phpstan ## Check code quality - coding style and static analysis
 
 cs: ## Check PHP files coding style
-	mkdir -p var/build-tools
+	mkdir -p var/build-tools/PHP_CodeSniffer
 	"vendor/bin/phpcs" src tests --standard=build/phpcs.xml $(ARGS)
 
 csf: ## Fix PHP files coding style
-	mkdir -p var/build-tools
+	mkdir -p var/build-tools/PHP_CodeSniffer
 	"vendor/bin/phpcbf" src tests --standard=build/phpcs.xml $(ARGS)
 
 phpstan: ## Analyse code with PHPStan

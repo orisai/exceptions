@@ -81,10 +81,10 @@ jobs:
       - name: "Install PHP dependencies"
         run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable"
 
-      - name: "Cache Codesniffer data"
+      - name: "Cache PHP_CodeSniffer data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/codesniffer.dat"
+          path: "var/build-tools/PHP_CodeSniffer"
           key: "${{ runner.os }}-codesniffer"
           restore-keys: "${{ runner.os }}-codesniffer"
 
@@ -234,6 +234,13 @@ jobs:
       - name: "Install PHP dependencies"
         run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable ${{ matrix.composer-flags }}"
 
+      - name: "Cache PHPUnit data"
+        uses: "actions/cache@v2"
+        with:
+          path: "var/build-tools/PHPUnit"
+          key: "${{ runner.os }}-phpunit"
+          restore-keys: "${{ runner.os }}-phpunit"
+
       - name: "Setup problem matchers for PHPUnit"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"'
 
@@ -328,6 +335,13 @@ jobs:
       - name: "Install PHP dependencies"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
         run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable"
+
+      - name: "Cache PHPUnit data"
+        uses: "actions/cache@v2"
+        with:
+          path: "var/build-tools/PHPUnit"
+          key: "${{ runner.os }}-phpunit"
+          restore-keys: "${{ runner.os }}-phpunit"
 
       - name: "Setup problem matchers for PHPUnit"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
@@ -427,9 +441,23 @@ jobs:
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
         run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable"
 
+      - name: "Cache PHPUnit data"
+        uses: "actions/cache@v2"
+        with:
+          path: "var/build-tools/PHPUnit"
+          key: "${{ runner.os }}-phpunit"
+          restore-keys: "${{ runner.os }}-phpunit"
+
       - name: "Setup problem matchers for PHPUnit"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"'
+
+      - name: "Cache Infection data"
+        uses: "actions/cache@v2"
+        with:
+          path: "var/build-tools/Infection"
+          key: "${{ runner.os }}-infection"
+          restore-keys: "${{ runner.os }}-infection"
 
       - name: "Mutation tests"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
