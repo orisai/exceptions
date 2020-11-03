@@ -21,7 +21,7 @@
 		"symfony/polyfill-php80": "^1.18.1"
 	},
 	"require-dev": {
-		"infection/infection": "^0.19.0",
+		"infection/infection": "^0.20.0",
 		"orisai/coding-standard": "^1.0.0",
 		"pepakriz/phpstan-exception-rules": "^0.10.0",
 		"phpstan/extension-installer": "^1.0.0",
