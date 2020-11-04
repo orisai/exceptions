@@ -14,7 +14,7 @@ trait ConfigurableException
 {
 
 	/**
-	 * @return static
+	 * @return $this
 	 */
 	public function withCode(int $code)
 	{
@@ -25,7 +25,7 @@ trait ConfigurableException
 
 	/**
 	 * @param string|Stringable $message
-	 * @return static
+	 * @return $this
 	 */
 	public function withMessage($message)
 	{
@@ -35,7 +35,7 @@ trait ConfigurableException
 	}
 
 	/**
-	 * @return static
+	 * @return $this
 	 */
 	public function withPrevious(Throwable $throwable)
 	{
