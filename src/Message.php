@@ -75,9 +75,7 @@ final class Message implements Stringable
 		if (strpos($content, PHP_EOL) === false) {
 			$content = wordwrap($content, self::LINE_LENGTH - $titleLength);
 			if (PHP_EOL !== "\n") {
-				// @codeCoverageIgnoreStart
 				$content = str_replace("\n", PHP_EOL, $content);
-				// @codeCoverageIgnoreEnd
 			}
 		}
 

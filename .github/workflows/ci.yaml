@@ -216,6 +216,7 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.php-extensions }}"
           tools: "${{ env.php-tools }}"
+          coverage: "pcov"
 
       - name: "Setup problem matchers for PHP"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/php.json"'
@@ -244,31 +245,9 @@ jobs:
       - name: "Setup problem matchers for PHPUnit"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"'
 
-      - name: "Tests"
-        run: "make tests"
-
-      - name: "Upload logs"
-        uses: "actions/upload-artifact@v2"
-        with:
-          name: "Logs"
-          path: "var/logs"
-          if-no-files-found: "ignore"
-
-  tests-code-coverage:
-    name: "Tests with code coverage"
-    runs-on: "${{ matrix.operating-system }}"
-
-    strategy:
-      matrix:
-        php-version: [ "7.4" ]
-        operating-system: [ "ubuntu-latest" ]
-
-    if: "github.event_name == 'push'"
-
-    steps:
-      - name: "Check if other steps should be executed"
+      - name: "Check if on default branch"
         uses: "actions/github-script@v3"
-        id: "should-run"
+        id: "is-default-branch"
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           result-encoding: "string"
@@ -280,84 +259,63 @@ jobs:
             ref = 'refs/heads/' + result.data.default_branch;
             return ref === context.ref ? 'yes' : 'no';
 
-      - name: "Checkout"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        uses: "actions/checkout@v2"
-
-      - name: "Create PHP extensions cache key"
-        uses: "actions/github-script@v3"
-        id: "php-extensions-cache-key"
-        with:
-          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
-          result-encoding: "string"
-
-      - name: "Setup PHP cache environment"
-        id: "php-extensions-cache"
-        uses: "shivammathur/cache-extensions@v1"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.php-extensions }}"
-          key: "${{ steps.php-extensions-cache-key.outputs.result }}"
-
-      - name: "Cache PHP extensions"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        uses: "actions/cache@v2"
-        with:
-          path: "${{ steps.php-extensions-cache.outputs.dir }}"
-          key: "${{ steps.php-extensions-cache.outputs.key }}"
-          restore-keys: "${{ steps.php-extensions-cache.outputs.key }}"
-
-      - name: "Install PHP"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.php-extensions }}"
-          tools: "${{ env.php-tools }}"
-
-      - name: "Setup problem matchers for PHP"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        run: 'echo "::add-matcher::${{ runner.tool_cache }}/php.json"'
-
-      - name: "Get Composer cache directory"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        id: "php-composer-cache"
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
-
-      - name: "Cache PHP dependencies"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        uses: "actions/cache@v2"
-        with:
-          path: "${{ steps.php-composer-cache.outputs.dir }}"
-          key: "${{ runner.os }}-composer-${{  hashFiles('**/composer.json', '**/composer.lock') }}"
-          restore-keys: "${{ runner.os }}-composer-"
-
-      - name: "Install PHP dependencies"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        run: "composer update --no-interaction --no-progress --prefer-dist --prefer-stable"
-
-      - name: "Cache PHPUnit data"
-        uses: "actions/cache@v2"
-        with:
-          path: "var/build-tools/PHPUnit"
-          key: "${{ runner.os }}-phpunit"
-          restore-keys: "${{ runner.os }}-phpunit"
-
-      - name: "Setup problem matchers for PHPUnit"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
-        run: 'echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"'
-
       - name: "Tests"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+        if: "${{ steps.is-default-branch.outputs.result == 'no' || (steps.is-default-branch.outputs.result == 'yes' && github.event_name != 'push') }}"
+        run: "make tests"
+
+      - name: "Tests with coverage"
+        if: "${{ steps.is-default-branch.outputs.result == 'yes' && github.event_name == 'push' }}"
         run: "make coverage-clover"
 
-      - name: "Coveralls.io"
-        if: "${{ steps.should-run.outputs.result == 'yes' }}"
+      - name: "Send coverage report"
+        if: "${{ steps.is-default-branch.outputs.result == 'yes' && github.event_name == 'push' }}"
+        env:
+          COVERALLS_PARALLEL: "true"
+          COVERALLS_FLAG_NAME: "run-${{ env.GITHUB_RUN_ID }}"
+          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          composer global require php-coveralls/php-coveralls --prefer-dist --no-interaction --no-progress
+          php-coveralls -v --config build/.coveralls.yml
+
+      - name: "Upload logs"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "Logs"
+          path: "var/logs"
+          if-no-files-found: "ignore"
+
+  coverage-finish:
+    name: "Code coverage finish"
+    needs: "tests"
+    runs-on: "${{ matrix.operating-system }}"
+
+    strategy:
+      matrix:
+        php-version: [ "7.4" ]
+        operating-system: [ "ubuntu-latest" ]
+      fail-fast: false
+
+    steps:
+      - name: "Check if on default branch"
+        uses: "actions/github-script@v3"
+        id: "is-default-branch"
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          result-encoding: "string"
+          script: |
+            result = await github.repos.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            })
+            ref = 'refs/heads/' + result.data.default_branch;
+            return ref === context.ref ? 'yes' : 'no';
+
+      - name: "Coveralls Finished"
+        if: "${{ steps.is-default-branch.outputs.result == 'yes' && github.event_name == 'push' }}"
         env:
           COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls -v --config build/.coveralls.yml
+          curl -k "https://coveralls.io/webhook?repo_name=$GITHUB_REPOSITORY&repo_token=$COVERALLS_REPO_TOKEN" -d "payload[build_num]=$GITHUB_RUN_ID&payload[status]=done"
 
   tests-mutations:
     name: "Test for mutants"
