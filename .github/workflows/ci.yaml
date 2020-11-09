@@ -24,8 +24,9 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "7.4" ]
-        operating-system: [ "ubuntu-latest" ]
+        include:
+          - php-version: "8.0"
+            operating-system: "ubuntu-latest"
       fail-fast: false
 
     steps:
@@ -97,8 +98,9 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "7.4" ]
-        operating-system: [ "ubuntu-latest" ]
+        include:
+          - php-version: "8.0"
+            operating-system: "ubuntu-latest"
       fail-fast: false
 
     steps:
@@ -170,19 +172,14 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "7.4" ]
+        php-version: [ "7.4", "8.0" ]
         operating-system: [ "ubuntu-latest", "macos-latest", "windows-latest" ]
         composer-flags: [ "" ]
         include:
           - php-version: "7.4"
             operating-system: "ubuntu-latest"
             composer-flags: "--prefer-lowest"
-          - php-version: "8.0"
-            operating-system: "ubuntu-latest"
-            composer-flags: "--ignore-platform-req=php"
       fail-fast: false
-
-    continue-on-error: "${{ matrix.php-version == '8.0' }}"
 
     steps:
       - name: "Checkout"
@@ -291,8 +288,9 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "7.4" ]
-        operating-system: [ "ubuntu-latest" ]
+        include:
+          - php-version: "8.0"
+            operating-system: "ubuntu-latest"
       fail-fast: false
 
     steps:
@@ -323,8 +321,9 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "7.4" ]
-        operating-system: [ "ubuntu-latest" ]
+        include:
+          - php-version: "7.4"
+            operating-system: "ubuntu-latest"
 
     if: "github.event_name == 'push'"
 
