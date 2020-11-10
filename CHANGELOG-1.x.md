@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-11-10
+
 ### Added
 
 - `CheckedException` interface
@@ -21,4 +23,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - `ShouldNotHappen`
 - `ConfigurableException` trait
 
-[Unreleased]: https://github.com/orisai/exceptions/compare/...HEAD
+[Unreleased]: https://github.com/orisai/exceptions/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/orisai/exceptions/releases/tag/1.0.0
