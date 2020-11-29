@@ -3,3 +3,4 @@ includes:
 
 parameters:
 	level: max
+	resultCachePath: %currentWorkingDirectory%/var/build-tools/PHPStan/resultCache.src.php
