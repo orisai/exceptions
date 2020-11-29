@@ -3,6 +3,7 @@ includes:
 
 parameters:
 	level: 3
+	resultCachePath: %currentWorkingDirectory%/var/build-tools/PHPStan/resultCache.tests.php
 
 	ignoreErrors:
 		# Intentional, tests reporting
