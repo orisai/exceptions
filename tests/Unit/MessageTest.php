@@ -89,6 +89,40 @@ MSG,
 		);
 	}
 
+	public function testMessageInsideMessage(): void
+	{
+		$innerMessage = Message::create()
+			->withContext('inner context')
+			->withProblem(<<<'MSG'
+This message
+is already
+formatted into
+multiple lines.
+MSG)
+			->withSolution('This is really, really, really long solution. Lorem ipsum dolor sit amet.');
+
+		$outerMessage = Message::create()
+			->withContext('outer context')
+			->withProblem('This is really, really, really long problem. Lorem ipsum dolor sit amet.')
+			->withSolution($innerMessage->toString());
+
+		self::assertSame(
+			<<<'MSG'
+Context: outer context
+Problem: This is really, really, really long problem. Lorem ipsum dolor sit
+         amet.
+Solution: Context: inner context
+          Problem: This message
+                   is already
+                   formatted into
+                   multiple lines.
+          Solution: This is really, really, really long solution. Lorem ipsum dolor sit
+                    amet.
+MSG,
+			$outerMessage->toString(),
+		);
+	}
+
 	public function testException(): void
 	{
 		$message = Message::create()
