@@ -5,7 +5,7 @@
         ]
     },
     "logs": {
-        "text": "var/logs/infection.log",
+        "text": "var/log/infection.log",
 		"badge": {
 			"branch": "v1.x"
 		}
