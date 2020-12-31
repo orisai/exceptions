@@ -1,0 +1,6 @@
+includes:
+	- phpstan.base.neon
+
+parameters:
+	level: max
+	resultCachePath: %currentWorkingDirectory%/var/tools/PHPStan/resultCache.src.php

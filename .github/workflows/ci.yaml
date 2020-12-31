@@ -85,7 +85,7 @@ jobs:
       - name: "Cache PHP_CodeSniffer data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/PHP_CodeSniffer"
+          path: "var/tools/PHP_CodeSniffer"
           key: "${{ runner.os }}-codesniffer"
           restore-keys: "${{ runner.os }}-codesniffer"
 
@@ -159,7 +159,7 @@ jobs:
       - name: "Cache PHPStan data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/PHPStan"
+          path: "var/tools/PHPStan"
           key: "${{ runner.os }}-phpstan"
           restore-keys: "${{ runner.os }}-phpstan"
 
@@ -235,7 +235,7 @@ jobs:
       - name: "Cache PHPUnit data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/PHPUnit"
+          path: "var/tools/PHPUnit"
           key: "${{ runner.os }}-phpunit"
           restore-keys: "${{ runner.os }}-phpunit"
 
@@ -272,7 +272,7 @@ jobs:
           COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           composer global require php-coveralls/php-coveralls --prefer-dist --no-interaction --no-progress
-          php-coveralls -v --config build/.coveralls.yml
+          php-coveralls -v --config tools/.coveralls.yml
 
       - name: "Upload logs"
         uses: "actions/upload-artifact@v2"
@@ -401,7 +401,7 @@ jobs:
       - name: "Cache PHPUnit data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/PHPUnit"
+          path: "var/tools/PHPUnit"
           key: "${{ runner.os }}-phpunit"
           restore-keys: "${{ runner.os }}-phpunit"
 
@@ -412,7 +412,7 @@ jobs:
       - name: "Cache Infection data"
         uses: "actions/cache@v2"
         with:
-          path: "var/build-tools/Infection"
+          path: "var/tools/Infection"
           key: "${{ runner.os }}-infection"
           restore-keys: "${{ runner.os }}-infection"
 

@@ -3,7 +3,7 @@ includes:
 
 parameters:
 	phpVersion: 74000
-	tmpDir: ../var/build-tools/PHPStan
+	tmpDir: ../var/tools/PHPStan
 
 	exceptionRules:
 		reportUnusedCatchesOfUncheckedExceptions: true

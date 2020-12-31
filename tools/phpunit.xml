@@ -2,7 +2,7 @@
 		 xsi:noNamespaceSchemaLocation="./../vendor/phpunit/phpunit/phpunit.xsd"
 		 bootstrap="../vendor/autoload.php"
 		 beStrictAboutOutputDuringTests="true"
-		 cacheResultFile="../var/build-tools/PHPUnit/results.dat"
+		 cacheResultFile="../var/tools/PHPUnit/results.dat"
 		 colors="true"
 		 failOnRisky="true"
 		 failOnWarning="true"
@@ -13,7 +13,7 @@
 		<directory>../tests</directory>
 	</testsuite>
 
-	<coverage cacheDirectory="../var/build-tools/PHPUnit/coverage" processUncoveredFiles="true">
+	<coverage cacheDirectory="../var/tools/PHPUnit/coverage" processUncoveredFiles="true">
 		<include>
 			<directory suffix=".php">../src</directory>
 		</include>

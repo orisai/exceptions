@@ -10,7 +10,7 @@
 			"branch": "v1.x"
 		}
     },
-	"tmpDir": "../var/build-tools/Infection",
+	"tmpDir": "../var/tools/Infection",
     "mutators": {
         "@default": true
     }
