@@ -1,9 +1,9 @@
 # Not archived
 
 .github export-ignore
-build export-ignore
 docs export-ignore
 tests export-ignore
+tools export-ignore
 
 .editorconfig export-ignore
 .gitattributes export-ignore
