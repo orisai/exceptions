@@ -323,7 +323,7 @@ jobs:
       matrix:
         include:
           - operating-system: "ubuntu-latest"
-            php-version: "7.4"
+            php-version: "8.0"
 
     if: "github.event_name == 'push'"
 
