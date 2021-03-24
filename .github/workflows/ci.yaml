@@ -37,7 +37,7 @@ jobs:
         uses: "actions/github-script@v3"
         id: "php-extensions-cache-key"
         with:
-          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          script: "return '${{ env.php-extensions }}'.replace(/, /g, '+');"
           result-encoding: "string"
 
       - name: "Setup PHP cache environment"
@@ -111,7 +111,7 @@ jobs:
         uses: "actions/github-script@v3"
         id: "php-extensions-cache-key"
         with:
-          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          script: "return '${{ env.php-extensions }}'.replace(/, /g, '+');"
           result-encoding: "string"
 
       - name: "Setup PHP cache environment"
@@ -189,7 +189,7 @@ jobs:
         uses: "actions/github-script@v3"
         id: "php-extensions-cache-key"
         with:
-          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          script: "return '${{ env.php-extensions }}'.replace(/, /g, '+');"
           result-encoding: "string"
 
       - name: "Setup PHP cache environment"
@@ -350,7 +350,7 @@ jobs:
         uses: "actions/github-script@v3"
         id: "php-extensions-cache-key"
         with:
-          script: "return '${{ env.php-extensions }}'.replace(' ', '').replace(',', '+');"
+          script: "return '${{ env.php-extensions }}'.replace(/, /g, '+');"
           result-encoding: "string"
 
       - name: "Setup PHP cache environment"
