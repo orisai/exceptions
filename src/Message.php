@@ -19,7 +19,9 @@ final class Message implements Stringable
 	private const LINE_LENGTH = 80;
 
 	public ?string $context = null;
+
 	public ?string $problem = null;
+
 	public ?string $solution = null;
 
 	public static function create(): self
