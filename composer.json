@@ -22,7 +22,7 @@
 	},
 	"require-dev": {
 		"infection/infection": "^0.20.0",
-		"orisai/coding-standard": "^1.0.0",
+		"orisai/coding-standard": "^2.0.0",
 		"pepakriz/phpstan-exception-rules": "^0.11.0",
 		"phpstan/extension-installer": "^1.0.0",
 		"phpstan/phpstan": "^0.12.0",

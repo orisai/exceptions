@@ -52,6 +52,7 @@ MSG,
 				'This is really, really, really long problem. Lorem ipsum dolor sit amet. I don\'t know what more to write.',
 			)
 			->withSolution(
+				// phpcs:ignore SlevomatCodingStandard.Files.LineLength.LineTooLong
 				'This is really, really, really long solution. Lorem ipsum dolor sit amet. I don\'t know what more to write. But result looks really nice.',
 			);
 
