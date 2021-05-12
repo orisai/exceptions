@@ -9,3 +9,7 @@ parameters:
 		reportUnusedCatchesOfUncheckedExceptions: true
 		checkedExceptions:
 			- Orisai\Exceptions\Check\CheckedException
+
+	checkMissingCallableSignature: true
+	checkTooWideReturnTypesInProtectedAndPublicMethods: true
+	checkInternalClassCaseSensitivity: true
