@@ -2,7 +2,7 @@ includes:
 	- phpstan.base.neon
 
 parameters:
-	level: 3
+	level: max
 	resultCachePath: %currentWorkingDirectory%/var/tools/PHPStan/resultCache.tests.php
 
 	ignoreErrors:
