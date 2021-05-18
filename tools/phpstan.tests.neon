@@ -7,6 +7,6 @@ parameters:
 
 	ignoreErrors:
 		# Intentional, tests reporting
-		- message: '#^Missing \@throws Tests\\Orisai\\Exceptions\\Doubles\\ExampleUserError annotation$#'
+		- message: "#^Method (.+)CheckedExceptionTest\\:\\:testNotAnnotated\\(\\) throws checked exception (.+)ExampleUserError but it's missing from the PHPDoc @throws tag\\.$#"
 		  path: %currentWorkingDirectory%/tests/Unit/Check/CheckedExceptionTest.php
 		  count: 1
