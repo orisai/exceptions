@@ -170,14 +170,16 @@ In these cases the called code should never throw any exceptions unless they are
 
 ### PHPStan exception rules
 
-We use [PHPStan](https://phpstan.org) with [phpstan-exception-rules](https://github.com/pepakriz/phpstan-exception-rules) to check all checked exceptions are properly handled.
+We use [PHPStan](https://phpstan.org) built-in [exception rules](https://phpstan.org/blog/bring-your-exceptions-under-control) to ensure all checked exceptions are properly handled.
 
-Install package and add following configuration to your `phpstan.neon`:
+Add following configuration to your `phpstan.neon`:
 
-```yaml
+```neon
 parameters:
-    exceptionRules:
-        reportUnusedCatchesOfUncheckedExceptions: true
-        checkedExceptions:
-            - Orisai\Exceptions\Check\CheckedException
+	exceptions:
+		check:
+			missingCheckedExceptionInThrows: true
+			tooWideThrowType: true
+		checkedExceptionClasses:
+			- Orisai\Exceptions\Check\CheckedException
 ```
