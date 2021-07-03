@@ -19,11 +19,11 @@ final class Message implements Stringable
 	/** @phstan-var positive-int */
 	public static int $lineLength = 80;
 
-	public ?string $context = null;
+	private ?string $context = null;
 
-	public ?string $problem = null;
+	private ?string $problem = null;
 
-	public ?string $solution = null;
+	private ?string $solution = null;
 
 	public static function create(): self
 	{
