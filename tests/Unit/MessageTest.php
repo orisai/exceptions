@@ -42,6 +42,9 @@ MSG,
 		);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function testMultiLine(): void
 	{
 		$message = Message::create()
@@ -64,6 +67,18 @@ Problem: This is really, really, really long problem. Lorem ipsum dolor sit
          amet. I don't know what more to write.
 Solution: This is really, really, really long solution. Lorem ipsum dolor sit
           amet. I don't know what more to write. But result looks really nice.
+MSG,
+			$message->toString(),
+		);
+
+		Message::$lineLength = 120;
+
+		self::assertSame(
+			<<<'MSG'
+Context: This is really, really, really long context. Lorem ipsum dolor sit amet. I don't know what more to write.
+Problem: This is really, really, really long problem. Lorem ipsum dolor sit amet. I don't know what more to write.
+Solution: This is really, really, really long solution. Lorem ipsum dolor sit amet. I don't know what more to write. But
+          result looks really nice.
 MSG,
 			$message->toString(),
 		);

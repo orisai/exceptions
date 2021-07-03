@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased](https://github.com/orisai/exceptions/compare/1.0.0...HEAD)
 
+### Added
+
+- `Message`
+	- Configurable line length via `Message::$lineLength`
+
 ## [1.0.0](https://github.com/orisai/exceptions/releases/tag/1.0.0) - 2020-11-10
 
 ### Added
