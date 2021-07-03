@@ -27,21 +27,33 @@ final class Message implements Stringable
 		return new self();
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function withContext(string $context): self
 	{
 		return $this->with('Context', $context);
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function withProblem(string $problem): self
 	{
 		return $this->with('Problem', $problem);
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function withSolution(string $solution): self
 	{
 		return $this->with('Solution', $solution);
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function with(string $title, string $content): self
 	{
 		$this->fields[$title] = $content;
