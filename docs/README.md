@@ -11,6 +11,7 @@ Exceptions designed for static analysis and easy usage
 	- [Unchecked exception](#unchecked-exception)
 - [Messages](#messages)
 	- [Line length](#line-length)
+	- [Custom fields](#custom-fields)
 - [Exception suffix](#exception-suffix)
 - [Exceptions as part of the function signature](#exceptions-as-part-of-the-function-signature)
 	- [PHPStan exception rules](#phpstan-exception-rules)
@@ -124,6 +125,7 @@ Programming errors (aka unchecked exceptions) should be as consistent and descri
 
 ```php
 use Orisai\Exceptions\Logic\InvalidState;
+use Orisai\Exceptions\Message;
 
 $message = Message::create()
     ->withContext('Trying to commit an import.')
@@ -152,6 +154,23 @@ Messages longer than 80 characters (including description) are formatted into mu
 which already contain newlines.
 
 To change the default line length, use `$lineLength` property, `Message::$lineLength = 120;`.
+
+### Custom fields
+
+Unique information above scope of Context-Problem-Solution can be added via `with()` method.
+
+```php
+use Orisai\Exceptions\Message;
+
+Message::create()
+	->withContext('Message with custom fields.')
+	->with('Error hash', 'value');
+```
+
+```
+Context: Message with custom fields.
+Error hash: value
+```
 
 ## Exception suffix
 
