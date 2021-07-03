@@ -16,7 +16,8 @@ use const PHP_EOL;
 final class Message implements Stringable
 {
 
-	private const LINE_LENGTH = 80;
+	/** @phstan-var positive-int */
+	public static int $lineLength = 80;
 
 	public ?string $context = null;
 
@@ -75,7 +76,7 @@ final class Message implements Stringable
 		$titleLength = mb_strlen($title);
 
 		if (strpos($content, PHP_EOL) === false) {
-			$content = wordwrap($content, self::LINE_LENGTH - $titleLength);
+			$content = wordwrap($content, self::$lineLength - $titleLength);
 			if (PHP_EOL !== "\n") {
 				$content = str_replace("\n", PHP_EOL, $content);
 			}

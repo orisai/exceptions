@@ -7,12 +7,13 @@ Exceptions designed for static analysis and easy usage
 - [Setup](#setup)
 - [Fluent interface](#fluent-interface)
 - [Types of exceptions](#types-of-exceptions)
-    - [Checked exception](#checked-exception)
-    - [Unchecked exception](#unchecked-exception)
+	- [Checked exception](#checked-exception)
+	- [Unchecked exception](#unchecked-exception)
 - [Messages](#messages)
+	- [Line length](#line-length)
 - [Exception suffix](#exception-suffix)
 - [Exceptions as part of the function signature](#exceptions-as-part-of-the-function-signature)
-    - [PHPStan exception rules](#phpstan-exception-rules)
+	- [PHPStan exception rules](#phpstan-exception-rules)
 
 ## Setup
 
@@ -144,8 +145,13 @@ Solution: Check that the import files are not empty, and that filters are not
 
 - context, problem and solution are always in the same order
 - only specified parts are rendered
-- messages longer than 80 characters (including description) are formatted into multiple lines
-    - messages which already contain newlines are respected and are not reformatted
+
+### Line length
+
+Messages longer than 80 characters (including description) are formatted into multiple lines, except these messages
+which already contain newlines.
+
+To change the default line length, use `$lineLength` property, `Message::$lineLength = 120;`.
 
 ## Exception suffix
 
