@@ -180,4 +180,24 @@ MSG,
 			->withMessage($message->toString());
 	}
 
+	public function testCustomFields(): void
+	{
+		$message = Message::create()
+			->with('custom1', 'custom1')
+			->withContext('context')
+			->withProblem('problem')
+			->with('Context', 'custom context')
+			->with('custom2', 'custom2');
+
+		self::assertSame(
+			<<<'MSG'
+Context: custom context
+Problem: problem
+custom1: custom1
+custom2: custom2
+MSG,
+			$message->toString(),
+		);
+	}
+
 }

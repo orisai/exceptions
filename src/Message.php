@@ -19,11 +19,8 @@ final class Message implements Stringable
 	/** @phstan-var positive-int */
 	public static int $lineLength = 80;
 
-	private ?string $context = null;
-
-	private ?string $problem = null;
-
-	private ?string $solution = null;
+	/** @var array<string, string> */
+	private array $fields = [];
 
 	public static function create(): self
 	{
@@ -32,21 +29,22 @@ final class Message implements Stringable
 
 	public function withContext(string $context): self
 	{
-		$this->context = $context;
-
-		return $this;
+		return $this->with('Context', $context);
 	}
 
 	public function withProblem(string $problem): self
 	{
-		$this->problem = $problem;
-
-		return $this;
+		return $this->with('Problem', $problem);
 	}
 
 	public function withSolution(string $solution): self
 	{
-		$this->solution = $solution;
+		return $this->with('Solution', $solution);
+	}
+
+	public function with(string $title, string $content): self
+	{
+		$this->fields[$title] = $content;
 
 		return $this;
 	}
@@ -111,9 +109,19 @@ final class Message implements Stringable
 	 */
 	public function __toString(): string
 	{
-		$message = $this->addPart('Context: ', $this->context, null);
-		$message = $this->addPart('Problem: ', $this->problem, $message);
-		$message = $this->addPart('Solution: ', $this->solution, $message);
+		$message = null;
+		$fields = $this->fields;
+
+		foreach (['Context', 'Problem', 'Solution'] as $title) {
+			if (isset($fields[$title])) {
+				$message = $this->addPart("$title: ", $fields[$title], $message);
+				unset($fields[$title]);
+			}
+		}
+
+		foreach ($fields as $title => $content) {
+			$message = $this->addPart("$title: ", $content, $message);
+		}
 
 		if ($message !== null) {
 			return $message;
