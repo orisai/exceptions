@@ -207,15 +207,15 @@ This behavior can be disabled by `ConfigurableException::$addSuppressedToMessage
 ```txt
 Some of the runners failed during task execution.
 Suppressed errors:
-    - Error created at /path/to/FooRunner.php:38 with code 0
-    Error
+- Error created at /path/to/FooRunner.php:38 with code 0
+  Error
 
-    - Exception created at /path/to/BarRunner.php:97 with code 0
-    <NO MESSAGE>
+- Exception created at /path/to/BarRunner.php:97 with code 0
+  <NO MESSAGE>
 
-    - Orisai\Exceptions\Logic\InvalidState created at /path/to/BazRunner.php:51 with code 0
-    Problem: problem
-    Solution: solution
+- Orisai\Exceptions\Logic\InvalidState created at /path/to/BazRunner.php:51 with code 0
+  Problem: problem
+  Solution: solution
 ```
 
 Suppressed exceptions can also be accessed via `$exception->getSuppressed()`.
