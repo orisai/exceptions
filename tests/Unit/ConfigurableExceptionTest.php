@@ -4,9 +4,12 @@ namespace Tests\Orisai\Exceptions\Unit;
 
 use Exception;
 use Orisai\Exceptions\Logic\InvalidArgument;
+use Orisai\Exceptions\Logic\InvalidState;
 use Orisai\Exceptions\Logic\ShouldNotHappen;
 use Orisai\Exceptions\Message;
 use PHPUnit\Framework\TestCase;
+use Tests\Orisai\Exceptions\Generators\ClassExceptionGenerator;
+use function realpath;
 use function str_replace;
 use const DIRECTORY_SEPARATOR;
 
@@ -72,17 +75,17 @@ final class ConfigurableExceptionTest extends TestCase
 			<<<'MSG'
 Oh no! This should not happen.
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:47 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:50 with code 0
     Error
 
-    - Exception created at /path/to/ConfigurableExceptionTest.php:51 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:54 with code 0
     <NO MESSAGE>
 
-    - Exception created at /path/to/ConfigurableExceptionTest.php:52 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:55 with code 0
     Problem: problem
     Solution: solution
 
-    - Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:58 with code 0
+    - Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:61 with code 0
     foo
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -99,7 +102,7 @@ MSG,
 		self::assertSame(
 			<<<'MSG'
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:94 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:97 with code 0
     error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -111,10 +114,40 @@ MSG,
 			<<<'MSG'
 message
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:94 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:97 with code 0
     error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
+		);
+	}
+
+	public function testSuppressedCreationContext(): void
+	{
+		$path = realpath(__DIR__ . '/../Generators/FileExceptionGenerator.php');
+		self::assertIsString($path);
+
+		$e = require $path;
+		self::assertInstanceOf(InvalidState::class, $e);
+		self::assertSame(
+			<<<'MSG'
+Suppressed errors:
+    - Orisai\Exceptions\Logic\ShouldNotHappen created at /path/to/TestFile.php:8 with code 0
+    test
+MSG,
+			str_replace($path, '/path/to/TestFile.php', $e->getMessage()),
+		);
+
+		$path = realpath(__DIR__ . '/../Generators/ClassExceptionGenerator.php');
+		self::assertIsString($path);
+
+		$e = ClassExceptionGenerator::create();
+		self::assertSame(
+			<<<'MSG'
+Suppressed errors:
+    - Orisai\Exceptions\Logic\ShouldNotHappen created at /path/to/TestFile.php:15 with code 0
+    test
+MSG,
+			str_replace($path, '/path/to/TestFile.php', $e->getMessage()),
 		);
 	}
 

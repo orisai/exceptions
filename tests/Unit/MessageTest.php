@@ -187,14 +187,15 @@ MSG,
 			->withContext('context')
 			->withProblem('problem')
 			->with('Context', 'custom context')
-			->with('custom2', 'custom2');
+			->with('custom2ऄ', 'This is really, really, really long message. Lorem ipsum dolor sit amet.');
 
 		self::assertSame(
 			<<<'MSG'
 Context: custom context
 Problem: problem
 custom1: custom1
-custom2: custom2
+custom2ऄ: This is really, really, really long message. Lorem ipsum dolor sit
+          amet.
 MSG,
 			$message->toString(),
 		);
