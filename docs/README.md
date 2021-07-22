@@ -12,6 +12,7 @@ Exceptions designed for static analysis and easy usage
 - [Messages](#messages)
 	- [Line length](#line-length)
 	- [Custom fields](#custom-fields)
+- [Suppressed exceptions](#suppressed-exceptions)
 - [Exception suffix](#exception-suffix)
 - [Exceptions as part of the function signature](#exceptions-as-part-of-the-function-signature)
 	- [PHPStan exception rules](#phpstan-exception-rules)
@@ -171,6 +172,52 @@ Message::create()
 Context: Message with custom fields.
 Error hash: value
 ```
+
+## Suppressed exceptions
+
+Aggregate multiple exceptions into one.
+Useful for handling unreliable subsystems whose crash should not stop processing by other subsystems.
+
+Feature can be activated by using `ConfigurableException` trait or any of the exceptions from this package.
+
+```php
+use Orisai\Exceptions\Logic\ShouldNotHappen;
+use Throwable;
+
+$suppressed = [];
+
+foreach ($this->runners as $runner) {
+	try {
+		$runner->execute($task);
+	} catch (Throwable $exception) {
+		$suppressed[] = $exception;
+	}
+}
+
+if ($suppressed !== []) {
+	throw ShouldNotHappen::create()
+		->withMessage('Some of the runners failed during task execution.')
+		->withSuppressed($suppressed);
+}
+```
+
+Message of exception is an aggregation of its own and suppressed exceptions messages.
+
+```txt
+Some of the runners failed during task execution.
+Suppressed errors:
+    - Error created at /path/to/FooRunner.php:38 with code 0
+    Error
+
+    - Exception created at /path/to/BarRunner.php:97 with code 0
+    <NO MESSAGE>
+
+    - Orisai\Exceptions\Logic\InvalidState created at /path/to/BazRunner.php:51 with code 0
+    Problem: problem
+    Solution: solution
+```
+
+Suppressed exceptions can also be accessed via `$exception->getSuppressed()`.
 
 ## Exception suffix
 

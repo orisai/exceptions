@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 	- Configurable line length via `Message::$lineLength`
 	- `with('title', 'content')` for custom fields
 - `ConfigurableException`
-	- Suppressed exceptions - `withSuppressed()`, `getSuppressed()`
+	- Suppressed exceptions
+		- `withSuppressed()`, `getSuppressed()`
+		- Suppressed exceptions messages are appended to main exception message
 
 ### Removed
 
