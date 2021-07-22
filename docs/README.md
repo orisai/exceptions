@@ -202,6 +202,7 @@ if ($suppressed !== []) {
 ```
 
 Message of exception is an aggregation of its own and suppressed exceptions messages.
+This behavior can be disabled by `ConfigurableException::$addSuppressedToMessage = false;`.
 
 ```txt
 Some of the runners failed during task execution.

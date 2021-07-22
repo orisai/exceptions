@@ -23,6 +23,8 @@ trait ConfigurableException
 
 	private bool $isAnySuppressedInMessage = false;
 
+	public static bool $addSuppressedToMessage = true;
+
 	/**
 	 * @return $this
 	 */
@@ -41,9 +43,11 @@ trait ConfigurableException
 	{
 		$this->message = (string) $message;
 
-		$this->isAnySuppressedInMessage = false;
-		foreach ($this->suppressed as $key => $item) {
-			$this->addSuppressedToMessage($item, array_key_first($this->suppressed) === $key);
+		if (static::$addSuppressedToMessage) {
+			$this->isAnySuppressedInMessage = false;
+			foreach ($this->suppressed as $key => $item) {
+				$this->addSuppressedToMessage($item, array_key_first($this->suppressed) === $key);
+			}
 		}
 
 		return $this;
@@ -70,7 +74,9 @@ trait ConfigurableException
 	{
 		foreach ($suppressed as $item) {
 			$this->suppressed[] = $item;
-			$this->addSuppressedToMessage($item, count($this->suppressed) === 1);
+			if (static::$addSuppressedToMessage) {
+				$this->addSuppressedToMessage($item, count($this->suppressed) === 1);
+			}
 		}
 
 		return $this;

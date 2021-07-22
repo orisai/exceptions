@@ -3,6 +3,7 @@
 namespace Tests\Orisai\Exceptions\Unit;
 
 use Exception;
+use Orisai\Exceptions\ConfigurableException;
 use Orisai\Exceptions\Logic\InvalidArgument;
 use Orisai\Exceptions\Logic\InvalidState;
 use Orisai\Exceptions\Logic\ShouldNotHappen;
@@ -75,17 +76,17 @@ final class ConfigurableExceptionTest extends TestCase
 			<<<'MSG'
 Oh no! This should not happen.
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:50 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:51 with code 0
     Error
 
-    - Exception created at /path/to/ConfigurableExceptionTest.php:54 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:55 with code 0
     <NO MESSAGE>
 
-    - Exception created at /path/to/ConfigurableExceptionTest.php:55 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:56 with code 0
     Problem: problem
     Solution: solution
 
-    - Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:61 with code 0
+    - Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:62 with code 0
     foo
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -102,7 +103,7 @@ MSG,
 		self::assertSame(
 			<<<'MSG'
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:97 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:98 with code 0
     error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -114,10 +115,40 @@ MSG,
 			<<<'MSG'
 message
 Suppressed errors:
-    - Exception created at /path/to/ConfigurableExceptionTest.php:97 with code 0
+    - Exception created at /path/to/ConfigurableExceptionTest.php:98 with code 0
     error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
+		);
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testSuppressedMessageDisabled(): void
+	{
+		ConfigurableException::$addSuppressedToMessage = false;
+
+		$exception = ShouldNotHappen::create()
+			->withSuppressed([
+				new Exception('error'),
+			])->withMessage('message');
+
+		self::assertSame(
+			'message',
+			$exception->getMessage(),
+		);
+
+		$exception = ShouldNotHappen::create()
+			->withMessage('message')
+			->withSuppressed([
+				new Exception('error'),
+			]);
+
+		self::assertSame(
+			'message',
+			$exception->getMessage(),
 		);
 	}
 

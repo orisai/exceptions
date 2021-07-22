@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 	- Suppressed exceptions
 		- `withSuppressed()`, `getSuppressed()`
 		- Suppressed exceptions messages are appended to main exception message
+			- Can be disabled by `ConfigurableException::$addSuppressedToMessage = false;`
 
 ### Removed
 
