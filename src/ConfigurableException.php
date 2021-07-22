@@ -58,7 +58,6 @@ trait ConfigurableException
 		$property = $reflection->getProperty('previous');
 		$property->setAccessible(true);
 		$property->setValue($this, $throwable);
-		$property->setAccessible(false);
 
 		return $this;
 	}
@@ -103,16 +102,11 @@ trait ConfigurableException
 		$file = $throwable->getFile();
 		$line = $throwable->getLine();
 
-		foreach (($trace = $throwable->getTrace()) as $key => $item) {
-			if (isset($item['class']) && $item['class'] === $class) {
-				$nextItem = $trace[$key + 1] ?? null;
-				if ($nextItem !== null && isset($nextItem['class']) && $nextItem['class'] !== $class) {
-					$file = $item['file'];
-					$line = $item['line'];
-
-					break;
-				}
-			}
+		// Track exception source in case exception is created by static ctor
+		$traceStart = $throwable->getTrace()[0];
+		if (isset($traceStart['class']) && $traceStart['class'] === $class) {
+			$file = $traceStart['file'];
+			$line = $traceStart['line'];
 		}
 
 		$newMessage = "- $class created at $file:$line with code {$throwable->getCode()}" . PHP_EOL;
