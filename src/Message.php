@@ -4,11 +4,13 @@ namespace Orisai\Exceptions;
 
 use Orisai\Exceptions\Logic\InvalidState;
 use Stringable;
+use function assert;
 use function count;
 use function explode;
+use function is_string;
 use function mb_strlen;
+use function preg_replace;
 use function str_repeat;
-use function str_replace;
 use function strpos;
 use function wordwrap;
 use const PHP_EOL;
@@ -61,22 +63,13 @@ final class Message implements Stringable
 		return $this;
 	}
 
-	private function addPart(string $title, ?string $content, ?string $message): ?string
+	private function addPart(string $title, string $content, ?string $message): string
 	{
-		if ($message === null && $content === null) {
-			return null;
-		}
-
-		if ($content === null) {
-			return $message;
-		}
-
 		if ($message === null) {
-			$message = $this->formatPart($title, $content);
-		} else {
-			$message .= PHP_EOL;
-			$message .= $this->formatPart($title, $content);
+			return $this->formatPart($title, $content);
 		}
+
+		$message .= PHP_EOL . $this->formatPart($title, $content);
 
 		return $message;
 	}
@@ -85,11 +78,10 @@ final class Message implements Stringable
 	{
 		$titleLength = mb_strlen($title);
 
+		$content = preg_replace('~\R~u', PHP_EOL, $content);
+		assert(is_string($content));
 		if (strpos($content, PHP_EOL) === false) {
-			$content = wordwrap($content, self::$lineLength - $titleLength);
-			if (PHP_EOL !== "\n") {
-				$content = str_replace("\n", PHP_EOL, $content);
-			}
+			$content = wordwrap($content, self::$lineLength - $titleLength, PHP_EOL);
 		}
 
 		$formatted = '';
