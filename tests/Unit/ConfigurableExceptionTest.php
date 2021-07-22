@@ -152,6 +152,39 @@ MSG,
 		);
 	}
 
+	public function testSuppressedWithPrevious(): void
+	{
+		$exception = ShouldNotHappen::create()
+			->withMessage('message')
+			->withSuppressed([
+				new Exception('error', 0, new Exception('previous from error')),
+				new Exception(
+					'another one',
+					0,
+					new Exception('previous from another one', 0, new Exception()),
+				),
+			]);
+
+		self::assertSame(
+			<<<'MSG'
+message
+Suppressed errors:
+    - Exception created at /path/to/ConfigurableExceptionTest.php:160 with code 0
+    error
+        - Exception created at /path/to/ConfigurableExceptionTest.php:160 with code 0
+        previous from error
+
+    - Exception created at /path/to/ConfigurableExceptionTest.php:161 with code 0
+    another one
+        - Exception created at /path/to/ConfigurableExceptionTest.php:164 with code 0
+        previous from another one
+            - Exception created at /path/to/ConfigurableExceptionTest.php:164 with code 0
+            <NO MESSAGE>
+MSG,
+			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
+		);
+	}
+
 	public function testSuppressedCreationContext(): void
 	{
 		$path = realpath(__DIR__ . '/../Generators/FileExceptionGenerator.php');

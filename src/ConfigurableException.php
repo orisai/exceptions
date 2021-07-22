@@ -103,6 +103,12 @@ trait ConfigurableException
 
 	private function formatSuppressedExceptionMessage(Throwable $throwable, bool $isFirst): string
 	{
+		return ($isFirst ? '' : PHP_EOL)
+			. $this->indentMessage($this->formatSuppressedExceptionMessageInner($throwable));
+	}
+
+	private function formatSuppressedExceptionMessageInner(Throwable $throwable): string
+	{
 		$message = preg_replace('~\R~u', PHP_EOL, $throwable->getMessage());
 		$class = get_class($throwable);
 		$file = $throwable->getFile();
@@ -118,8 +124,12 @@ trait ConfigurableException
 		$newMessage = "- $class created at $file:$line with code {$throwable->getCode()}" . PHP_EOL;
 		$newMessage .= $message === '' ? '<NO MESSAGE>' : $message;
 
-		return ($isFirst ? '' : PHP_EOL)
-			. $this->indentMessage($newMessage);
+		$previous = $throwable->getPrevious();
+		if ($previous !== null) {
+			$newMessage .= $this->indentMessage($this->formatSuppressedExceptionMessageInner($previous));
+		}
+
+		return $newMessage;
 	}
 
 	private function indentMessage(string $originalMessage): string
