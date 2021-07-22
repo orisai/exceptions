@@ -63,22 +63,13 @@ final class Message implements Stringable
 		return $this;
 	}
 
-	private function addPart(string $title, ?string $content, ?string $message): ?string
+	private function addPart(string $title, string $content, ?string $message): string
 	{
-		if ($message === null && $content === null) {
-			return null;
-		}
-
-		if ($content === null) {
-			return $message;
-		}
-
 		if ($message === null) {
-			$message = $this->formatPart($title, $content);
-		} else {
-			$message .= PHP_EOL;
-			$message .= $this->formatPart($title, $content);
+			return $this->formatPart($title, $content);
 		}
+
+		$message .= PHP_EOL . $this->formatPart($title, $content);
 
 		return $message;
 	}
