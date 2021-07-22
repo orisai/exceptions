@@ -1,27 +1,35 @@
 _: list
 
+# Config
+
+PHPCS_CONFIG=tools/phpcs.xml
+PHPSTAN_SRC_CONFIG=tools/phpstan.src.neon
+PHPSTAN_TESTS_CONFIG=tools/phpstan.tests.neon
+PHPUNIT_CONFIG=tools/phpunit.xml
+INFECTION_CONFIG=tools/infection.json
+
 # QA
 
 qa: cs phpstan ## Check code quality - coding style and static analysis
 
 cs: ## Check PHP files coding style
 	mkdir -p var/tools/PHP_CodeSniffer
-	$(PRE_PHP) "vendor/bin/phpcs" src tests --standard=tools/phpcs.xml $(ARGS)
+	$(PRE_PHP) "vendor/bin/phpcs" src tests --standard=$(PHPCS_CONFIG) --parallel=$(shell nproc) $(ARGS)
 
 csf: ## Fix PHP files coding style
 	mkdir -p var/tools/PHP_CodeSniffer
-	$(PRE_PHP) "vendor/bin/phpcbf" src tests --standard=tools/phpcs.xml $(ARGS)
+	$(PRE_PHP) "vendor/bin/phpcbf" src tests --standard=$(PHPCS_CONFIG) --parallel=$(shell nproc) $(ARGS)
 
 phpstan: ## Analyse code with PHPStan
 	mkdir -p var/tools
-	$(PRE_PHP) "vendor/bin/phpstan" analyse src -c tools/phpstan.src.neon $(ARGS)
-	$(PRE_PHP) "vendor/bin/phpstan" analyse tests -c tools/phpstan.tests.neon $(ARGS)
+	$(PRE_PHP) "vendor/bin/phpstan" analyse src -c $(PHPSTAN_SRC_CONFIG) $(ARGS)
+	$(PRE_PHP) "vendor/bin/phpstan" analyse tests -c $(PHPSTAN_TESTS_CONFIG) $(ARGS)
 
 # Tests
 
 .PHONY: tests
 tests: ## Run all tests
-	$(PRE_PHP) "vendor/bin/phpunit" -c tools/phpunit.xml $(ARGS)
+	$(PRE_PHP) "vendor/bin/phpunit" -c $(PHPUNIT_CONFIG) $(ARGS)
 
 coverage-clover: ## Generate code coverage in XML format
 	$(PRE_PHP) $(PHPUNIT_COVERAGE) --coverage-clover=var/coverage/clover.xml $(ARGS)
@@ -32,8 +40,8 @@ coverage-html: ## Generate code coverage in HTML format
 mutations: ## Check code for mutants
 	$(PRE_PHP) $(PHPUNIT_COVERAGE) --coverage-xml=var/coverage/coverage-xml --log-junit=var/coverage/junit.xml
 	$(PRE_PHP) vendor/bin/infection \
-		--configuration=tools/infection.json \
-		--threads=$(nproc) \
+		--configuration=$(INFECTION_CONFIG) \
+		--threads=$(shell nproc) \
 		--coverage=../var/coverage \
 		--skip-initial-tests \
 		$(ARGS)
@@ -46,4 +54,4 @@ list:
 
 PRE_PHP=XDEBUG_MODE=off
 
-PHPUNIT_COVERAGE=php -d pcov.enabled=1 -d pcov.directory=./src vendor/phpunit/phpunit/phpunit -c tools/phpunit.xml
+PHPUNIT_COVERAGE=php -d pcov.enabled=1 -d pcov.directory=./src vendor/phpunit/phpunit/phpunit -c $(PHPUNIT_CONFIG)
