@@ -4,11 +4,13 @@ namespace Orisai\Exceptions;
 
 use Orisai\Exceptions\Logic\InvalidState;
 use Stringable;
+use function assert;
 use function count;
 use function explode;
+use function is_string;
 use function mb_strlen;
+use function preg_replace;
 use function str_repeat;
-use function str_replace;
 use function strpos;
 use function wordwrap;
 use const PHP_EOL;
@@ -85,11 +87,10 @@ final class Message implements Stringable
 	{
 		$titleLength = mb_strlen($title);
 
+		$content = preg_replace('~\R~u', PHP_EOL, $content);
+		assert(is_string($content));
 		if (strpos($content, PHP_EOL) === false) {
-			$content = wordwrap($content, self::$lineLength - $titleLength);
-			if (PHP_EOL !== "\n") {
-				$content = str_replace("\n", PHP_EOL, $content);
-			}
+			$content = wordwrap($content, self::$lineLength - $titleLength, PHP_EOL);
 		}
 
 		$formatted = '';
