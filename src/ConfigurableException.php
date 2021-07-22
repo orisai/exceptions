@@ -104,7 +104,11 @@ trait ConfigurableException
 	private function formatSuppressedExceptionMessage(Throwable $throwable, bool $isFirst): string
 	{
 		return ($isFirst ? '' : PHP_EOL)
-			. $this->indentMessage($this->formatSuppressedExceptionMessageInner($throwable));
+			. $this->indentMessage(
+				$this->formatSuppressedExceptionMessageInner($throwable),
+				2,
+				0,
+			);
 	}
 
 	private function formatSuppressedExceptionMessageInner(Throwable $throwable): string
@@ -126,21 +130,32 @@ trait ConfigurableException
 
 		$previous = $throwable->getPrevious();
 		if ($previous !== null) {
-			$newMessage .= $this->indentMessage($this->formatSuppressedExceptionMessageInner($previous));
+			$newMessage .= $this->indentMessage(
+				$this->formatSuppressedExceptionMessageInner($previous),
+				6,
+				4,
+			);
 		}
 
 		return $newMessage;
 	}
 
-	private function indentMessage(string $originalMessage): string
+	/**
+	 * @param positive-int $size
+	 */
+	private function indentMessage(string $originalMessage, int $size, int $firstLineSize): string
 	{
-		$message = PHP_EOL;
 		$lines = explode(PHP_EOL, $originalMessage);
+		$firstLine = array_key_first($lines);
 		$lastLine = array_key_last($lines);
-		$spaces = str_repeat(' ', 4);
+
+		$spaces = str_repeat(' ', $size);
+		$firstSpaces = str_repeat(' ', $firstLineSize);
+
+		$message = PHP_EOL;
 		foreach ($lines as $key => $line) {
 			$message .=
-				$spaces
+				($key === $firstLine ? $firstSpaces : $spaces)
 				. $line
 				. ($key === $lastLine ? '' : PHP_EOL);
 		}
