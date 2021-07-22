@@ -11,8 +11,8 @@ use function array_key_last;
 use function count;
 use function explode;
 use function get_class;
+use function preg_replace;
 use function str_repeat;
-use function str_replace;
 use const PHP_EOL;
 
 trait ConfigurableException
@@ -98,7 +98,7 @@ trait ConfigurableException
 
 	private function formatSuppressedExceptionMessage(Throwable $throwable, bool $isFirst): string
 	{
-		$message = $throwable->getMessage();
+		$message = preg_replace('~\R~u', PHP_EOL, $throwable->getMessage());
 		$class = get_class($throwable);
 		$file = $throwable->getFile();
 		$line = $throwable->getLine();
@@ -124,10 +124,6 @@ trait ConfigurableException
 
 	private function indentMessage(string $originalMessage): string
 	{
-		if (PHP_EOL !== "\n") {
-			$originalMessage = str_replace("\n", PHP_EOL, $originalMessage);
-		}
-
 		$message = PHP_EOL;
 		$lines = explode(PHP_EOL, $originalMessage);
 		$lastLine = array_key_last($lines);
