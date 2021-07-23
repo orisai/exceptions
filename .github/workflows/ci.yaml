@@ -216,6 +216,7 @@ jobs:
           extensions: "${{ env.php-extensions }}"
           tools: "${{ env.php-tools }}"
           coverage: "pcov"
+          ini-values: "zend.assertions=1, assert.exception=1"
 
       - name: "Setup problem matchers for PHP"
         run: 'echo "::add-matcher::${{ runner.tool_cache }}/php.json"'
@@ -379,6 +380,7 @@ jobs:
           extensions: "${{ env.php-extensions }}"
           tools: "${{ env.php-tools }}"
           coverage: "pcov"
+          ini-values: "zend.assertions=1, assert.exception=1"
 
       - name: "Setup problem matchers for PHP"
         if: "${{ steps.should-run.outputs.result == 'yes' }}"
