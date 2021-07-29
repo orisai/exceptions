@@ -1,17 +1,17 @@
 {
-    "source": {
-        "directories": [
-            "src"
-        ]
-    },
-    "logs": {
-        "text": "var/log/infection.log",
+	"source": {
+		"directories": [
+			"src"
+		]
+	},
+	"logs": {
+		"text": "var/log/infection.log",
 		"badge": {
-			"branch": "v1.x"
+			"branch": "/^v[0-9]+.[0-9x]+$/"
 		}
-    },
+	},
 	"tmpDir": "../var/tools/Infection",
-    "mutators": {
-        "@default": true
-    }
+	"mutators": {
+		"@default": true
+	}
 }
