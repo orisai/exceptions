@@ -185,6 +185,9 @@ jobs:
           - operating-system: "ubuntu-latest"
             php-version: "7.4"
             composer-flags: "--prefer-lowest"
+          - operating-system: "ubuntu-latest"
+            php-version: "8.1"
+            composer-flags: "--ignore-platform-req=php"
       fail-fast: false
 
     steps:
