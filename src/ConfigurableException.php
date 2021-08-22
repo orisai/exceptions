@@ -58,7 +58,9 @@ trait ConfigurableException
 	 */
 	public function withPrevious(Throwable $throwable): self
 	{
+		// phpcs:disable SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException
 		$reflection = new ReflectionClass(Exception::class);
+		// phpcs:enable
 		$property = $reflection->getProperty('previous');
 		$property->setAccessible(true);
 		$property->setValue($this, $throwable);
