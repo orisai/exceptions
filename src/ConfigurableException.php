@@ -28,7 +28,7 @@ trait ConfigurableException
 	/**
 	 * @return $this
 	 */
-	public function withCode(int $code)
+	public function withCode(int $code): self
 	{
 		$this->code = $code;
 
@@ -39,7 +39,7 @@ trait ConfigurableException
 	 * @param string|Stringable $message
 	 * @return $this
 	 */
-	public function withMessage($message)
+	public function withMessage($message): self
 	{
 		$this->message = (string) $message;
 
@@ -56,7 +56,7 @@ trait ConfigurableException
 	/**
 	 * @return $this
 	 */
-	public function withPrevious(Throwable $throwable)
+	public function withPrevious(Throwable $throwable): self
 	{
 		$reflection = new ReflectionClass(Exception::class);
 		$property = $reflection->getProperty('previous');
