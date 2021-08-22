@@ -3,10 +3,11 @@
 namespace Tests\Orisai\Exceptions\Unit;
 
 use Exception;
-use Orisai\Exceptions\ConfigurableException;
+use Orisai\Exceptions\DomainException;
 use Orisai\Exceptions\Logic\InvalidArgument;
 use Orisai\Exceptions\Logic\InvalidState;
 use Orisai\Exceptions\Logic\ShouldNotHappen;
+use Orisai\Exceptions\LogicalException;
 use Orisai\Exceptions\Message;
 use PHPUnit\Framework\TestCase;
 use Tests\Orisai\Exceptions\Generators\ClassExceptionGenerator;
@@ -76,17 +77,17 @@ final class ConfigurableExceptionTest extends TestCase
 			<<<'MSG'
 Oh no! This should not happen.
 Suppressed errors:
-- Exception created at /path/to/ConfigurableExceptionTest.php:51 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:52 with code 0
   Error
 
-- Exception created at /path/to/ConfigurableExceptionTest.php:55 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:56 with code 0
   <NO MESSAGE>
 
-- Exception created at /path/to/ConfigurableExceptionTest.php:56 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:57 with code 0
   Problem: problem
   Solution: solution
 
-- Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:62 with code 0
+- Orisai\Exceptions\Logic\InvalidArgument created at /path/to/ConfigurableExceptionTest.php:63 with code 0
   foo
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -103,7 +104,7 @@ MSG,
 		self::assertSame(
 			<<<'MSG'
 Suppressed errors:
-- Exception created at /path/to/ConfigurableExceptionTest.php:98 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:99 with code 0
   error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -115,7 +116,7 @@ MSG,
 			<<<'MSG'
 message
 Suppressed errors:
-- Exception created at /path/to/ConfigurableExceptionTest.php:98 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:99 with code 0
   error
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),
@@ -128,7 +129,11 @@ MSG,
 	 */
 	public function testSuppressedMessageDisabled(): void
 	{
-		ConfigurableException::$addSuppressedToMessage = false;
+		// Parent of ShouldNotHappen
+		LogicalException::$addSuppressedToMessage = false;
+
+		// Has same property as LogicalException from trait, verify trait behavior is just copy-pasted with default value
+		self::assertTrue(DomainException::$addSuppressedToMessage);
 
 		$exception = ShouldNotHappen::create()
 			->withSuppressed([
@@ -169,16 +174,16 @@ MSG,
 			<<<'MSG'
 message
 Suppressed errors:
-- Exception created at /path/to/ConfigurableExceptionTest.php:160 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:165 with code 0
   error
-      - Exception created at /path/to/ConfigurableExceptionTest.php:160 with code 0
+      - Exception created at /path/to/ConfigurableExceptionTest.php:165 with code 0
         previous from error
 
-- Exception created at /path/to/ConfigurableExceptionTest.php:161 with code 0
+- Exception created at /path/to/ConfigurableExceptionTest.php:166 with code 0
   another one
-      - Exception created at /path/to/ConfigurableExceptionTest.php:164 with code 0
+      - Exception created at /path/to/ConfigurableExceptionTest.php:169 with code 0
         previous from another one
-            - Exception created at /path/to/ConfigurableExceptionTest.php:164 with code 0
+            - Exception created at /path/to/ConfigurableExceptionTest.php:169 with code 0
               <NO MESSAGE>
 MSG,
 			str_replace(__DIR__ . DIRECTORY_SEPARATOR, '/path/to/', $exception->getMessage()),

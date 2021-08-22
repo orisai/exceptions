@@ -202,7 +202,14 @@ if ($suppressed !== []) {
 ```
 
 Message of exception is an aggregation of its own and suppressed exceptions messages.
-This behavior can be disabled by `ConfigurableException::$addSuppressedToMessage = false;`.
+
+This behavior can be disabled by `LogicalException::$addSuppressedToMessage = false;`
+and `DomainException::$addSuppressedToMessage = false;`.
+
+- Note: Property is defined by `ConfigurableException` trait but PHP just copy-pastes trait behavior into using classes,
+  and so they have to be configured individually because property value is not shared. Since PHP 8.1 setting trait value
+  directly has no effect, and before it set current value from trait when class was loaded, further modifications had no
+  effect.
 
 ```txt
 Some of the runners failed during task execution.
