@@ -8,7 +8,7 @@ use Orisai\Exceptions\Logic\InvalidState;
 use Orisai\Exceptions\Logic\MemberInaccessible;
 use Orisai\Exceptions\Logic\NotImplemented;
 use Orisai\Exceptions\Logic\ShouldNotHappen;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class UncheckedExceptionTest extends TestCase
 {
