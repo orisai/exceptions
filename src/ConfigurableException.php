@@ -8,9 +8,12 @@ use Stringable;
 use Throwable;
 use function array_key_first;
 use function array_key_last;
+use function assert;
 use function count;
 use function explode;
 use function get_class;
+use function is_int;
+use function is_string;
 use function preg_replace;
 use function str_repeat;
 use const PHP_EOL;
@@ -119,15 +122,21 @@ trait ConfigurableException
 		$class = get_class($throwable);
 		$file = $throwable->getFile();
 		$line = $throwable->getLine();
+		$code = $throwable->getCode();
+		// Other types are probably not used, and it's also impossible to create anything else
+		// than int in user land code...
+		assert(is_int($code) || is_string($code));
 
 		// Track exception source in case exception is created by static ctor
 		$traceStart = $throwable->getTrace()[0];
 		if (isset($traceStart['class']) && $traceStart['class'] === $class) {
 			$file = $traceStart['file'];
+			assert(is_string($file));
 			$line = $traceStart['line'];
+			assert(is_int($line));
 		}
 
-		$newMessage = "- $class created at $file:$line with code {$throwable->getCode()}" . PHP_EOL;
+		$newMessage = "- $class created at $file:$line with code $code" . PHP_EOL;
 		$newMessage .= $message === '' ? '<NO MESSAGE>' : $message;
 
 		$previous = $throwable->getPrevious();
