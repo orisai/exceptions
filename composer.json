@@ -25,12 +25,12 @@
 		"infection/infection": "^0.25.0",
 		"orisai/coding-standard": "^2.0.0",
 		"phpstan/extension-installer": "^1.0.0",
-		"phpstan/phpstan": "^0.12.0",
-		"phpstan/phpstan-deprecation-rules": "^0.12.0",
-		"phpstan/phpstan-phpunit": "^0.12.0",
-		"phpstan/phpstan-strict-rules": "^0.12.0",
-		"phpunit/phpunit": "^9.3.0",
-		"staabm/annotate-pull-request-from-checkstyle": "^1.1.0"
+		"phpstan/phpstan": "^1.0.0",
+		"phpstan/phpstan-deprecation-rules": "^1.0.0",
+		"phpstan/phpstan-phpunit": "^1.0.0",
+		"phpstan/phpstan-strict-rules": "^1.0.0",
+		"phpunit/phpunit": "^9.5.0",
+		"staabm/annotate-pull-request-from-checkstyle": "^1.7.0"
 	},
 	"autoload": {
 		"psr-4": {
