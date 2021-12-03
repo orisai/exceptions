@@ -39,8 +39,14 @@ coverage-html: ## Generate code coverage in HTML format
 	$(PRE_PHP) $(PHPUNIT_COVERAGE) --coverage-html=var/coverage/coverage-html $(ARGS)
 
 mutations: ## Check code for mutants
+	make mutations-tests
+	make mutations-infection
+
+mutations-tests:
 	mkdir -p var/coverage
 	$(PRE_PHP) $(PHPUNIT_COVERAGE) --coverage-xml=var/coverage/coverage-xml --log-junit=var/coverage/junit.xml
+
+mutations-infection:
 	$(PRE_PHP) vendor/bin/infection \
 		--configuration=$(INFECTION_CONFIG) \
 		--threads=$(LOGICAL_CORES) \

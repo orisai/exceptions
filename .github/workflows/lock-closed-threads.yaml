@@ -1,0 +1,9 @@
+name: "Lock inactive closed issues and PRs"
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  lock:
+    uses: "orisai/github-workflows/.github/workflows/lock-closed-threads.yaml@v1.x"
