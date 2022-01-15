@@ -123,9 +123,6 @@ trait ConfigurableException
 		$file = $throwable->getFile();
 		$line = $throwable->getLine();
 		$code = $throwable->getCode();
-		// Other types are probably not used, and it's also impossible to create anything else
-		// than int in user land code...
-		assert(is_int($code) || is_string($code));
 
 		// Track exception source in case exception is created by static ctor
 		$traceStart = $throwable->getTrace()[0];
