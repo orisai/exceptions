@@ -6,9 +6,10 @@
 		]
 	},
 	"logs": {
-		"text": "var/log/infection.log",
-		"badge": {
-			"branch": "/^v[0-9]+.[0-9x]+$/"
+		"html": "var/coverage/mutations/infection.html",
+		"text": "var/coverage/mutations/infection.log",
+		"stryker": {
+			"report": "/^v[0-9]+.[0-9x]+$/"
 		}
 	},
 	"tmpDir": "../var/tools/Infection",
