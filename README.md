@@ -1,4 +1,8 @@
-<h1 align="center">Orisai Exceptions</h1>
+<h1 align="center">
+	<img src="https://github.com/orisai/.github/blob/main/images/repo_title.png" alt="Orisai"/>
+	<br/>
+	Exceptions
+</h1>
 
 <p align="center">
     Exceptions designed for static analysis and easy usage
