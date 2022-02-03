@@ -8,12 +8,9 @@ use Stringable;
 use Throwable;
 use function array_key_first;
 use function array_key_last;
-use function assert;
 use function count;
 use function explode;
 use function get_class;
-use function is_int;
-use function is_string;
 use function preg_replace;
 use function str_repeat;
 use const PHP_EOL;
@@ -126,11 +123,12 @@ trait ConfigurableException
 
 		// Track exception source in case exception is created by static ctor
 		$traceStart = $throwable->getTrace()[0];
-		if (isset($traceStart['class']) && $traceStart['class'] === $class) {
+		if (
+			isset($traceStart['class'], $traceStart['file'], $traceStart['line'])
+			&& $traceStart['class'] === $class
+		) {
 			$file = $traceStart['file'];
-			assert(is_string($file));
 			$line = $traceStart['line'];
-			assert(is_int($line));
 		}
 
 		$newMessage = "- $class created at $file:$line with code $code" . PHP_EOL;
