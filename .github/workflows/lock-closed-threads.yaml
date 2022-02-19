@@ -6,4 +6,4 @@ on:
 
 jobs:
   lock:
-    uses: "orisai/github-workflows/.github/workflows/lock-closed-threads.yaml@v1.x"
+    uses: "orisai/github-workflows/.github/workflows/lock-closed-threads.yaml@v1"
