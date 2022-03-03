@@ -27,7 +27,7 @@ composer require orisai/exceptions
 
 ## Fluent interface
 
-All of our exceptions use `ConfigurableException` trait which allows to add message, code and previous exception through
+All of our exceptions use `ConfigurableException` trait which allows adding message, code and previous exception through
 fluent interface.
 
 ```php
@@ -62,7 +62,7 @@ Exceptions which are used to represent an error caused by user interaction.
 - All of them must implement interface `CheckedException` and should extend `\RuntimeException`.
 	- You may also extend `DomainException` which implements `CheckedException`, extends `\RuntimeException`, disables
 	  default constructor and uses `ConfigurableException` trait.
-- Checked exceptions are intended to be handled. They should always be catched or listed in annotations and catched in
+- Checked exceptions are intended to be handled. They should always be caught or listed in annotations and caught in
   higher layers.
 - The way they are handled is up to you - report the error to user, use a fallback strategy, log the error, or a
   combination thereof.
@@ -105,7 +105,7 @@ final class AccountBalanceTooLow extends DomainException
 }
 ```
 
-If you want add message, code or previous exception to error you can use [fluent interface](#fluent-interface).
+If you want to add message, code or previous exception to error you can use [fluent interface](#fluent-interface).
 
 ### Unchecked exception
 
@@ -121,7 +121,7 @@ Generic exceptions used for programming errors which should likely be fixed.
 	  with original exception added as previous (`$new->withPrevious($previous)`).
 - They should not be [part of the function signature](#exceptions-as-part-of-the-function-signature).
 - Unless the exception subclass covers a common use case, e.g. adds useful info via name or property or the exception
-  has valid reason to be catched then an existing uncatched exception should be used.
+  has valid reason to be caught then an existing uncaught exception should be used.
 
 We currently provide following unchecked exceptions:
 
@@ -230,7 +230,7 @@ and `DomainException::$addSuppressedToMessage = false;`.
 Some of the runners failed during task execution.
 Suppressed errors:
 - Error created at /path/to/FooRunner.php:38 with code 0
-  Error
+  An error message
 
 - Exception created at /path/to/BarRunner.php:97 with code 0
   <NO MESSAGE>
@@ -260,7 +260,7 @@ user errors to be added into function signature.
 
 Enforcement is achieved via static analysis. Officially supported
 are [PHPStan exception rules](#phpstan-exception-rules) but other tools may support that as well. Only requirement is to
-configure thrown `CheckedException` to be either catched or added into method signature.
+configure thrown `CheckedException` to be either caught or added into method signature.
 
 This approach will not work in case code is not called directly and caller don't know which code will be executed. Usual
 cases where this happens are controller actions executed by router, events dispatched by event dispatcher or message
