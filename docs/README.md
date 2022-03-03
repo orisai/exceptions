@@ -258,6 +258,24 @@ Why there is no `Exception` suffix? `InvalidState` instead of `InvalidStateExcep
 One of the main reasons why [checked exceptions](#checked-exception) exist is they provide an easy way how to enforce
 user errors to be added into function signature.
 
+```php
+final class HasToBeAnnotated extends \Orisai\Exceptions\DomainException
+{
+	public function create(): self
+	{
+		return new self();
+	}
+}
+
+/**
+ * @throws HasToBeAnnotated
+ */
+function doSomething(): void
+{
+	throw HasToBeAnnotated::create();
+}
+```
+
 Enforcement is achieved via static analysis. Officially supported
 are [PHPStan exception rules](#phpstan-exception-rules) but other tools may support that as well. Only requirement is to
 configure thrown `CheckedException` to be either caught or added into method signature.
