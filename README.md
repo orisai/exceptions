@@ -38,3 +38,18 @@
 <p>
 
 ##
+
+```php
+use Orisai\Exceptions\Logic\InvalidState;
+use Orisai\Exceptions\Message;
+
+$message = Message::create()
+    ->withContext('Trying to commit an import.')
+    ->withProblem('There is nothing to commit.')
+    ->withSolution('Check that the import files are not empty, and that filters are not too restrictive.');
+
+throw InvalidState::create()
+    ->withMessage($message);
+```
+
+... and [more](docs/README.md).
