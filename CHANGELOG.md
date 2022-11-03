@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased](https://github.com/orisai/exceptions/compare/1.1.0...HEAD)
 
+### Fixed
+
+- `Message`
+  - `with()` parameter `$title` expects non-empty-string
+
 ## [1.1.0](https://github.com/orisai/exceptions/compare/1.0.0...1.1.0) - 2021-07-22
 
 ### Added

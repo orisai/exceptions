@@ -21,7 +21,7 @@ final class Message implements Stringable
 	/** @phstan-var positive-int */
 	public static int $lineLength = 80;
 
-	/** @var array<string, string> */
+	/** @var array<non-empty-string, string> */
 	private array $fields = [];
 
 	public static function create(): self
@@ -54,6 +54,7 @@ final class Message implements Stringable
 	}
 
 	/**
+	 * @param non-empty-string $title
 	 * @return $this
 	 */
 	public function with(string $title, string $content): self
