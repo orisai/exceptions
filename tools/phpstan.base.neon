@@ -2,8 +2,13 @@ includes:
 	- ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
-	phpVersion: 74000
+	phpVersion: 70400
 	tmpDir: ../var/tools/PHPStan
+
+	checkBenevolentUnionTypes: true
+	checkMissingCallableSignature: true
+	checkInternalClassCaseSensitivity: true
+	checkTooWideReturnTypesInProtectedAndPublicMethods: true
 
 	exceptions:
 		check:
@@ -11,7 +16,3 @@ parameters:
 			tooWideThrowType: true
 		checkedExceptionClasses:
 			- Orisai\Exceptions\Check\CheckedException
-
-	checkMissingCallableSignature: true
-	checkTooWideReturnTypesInProtectedAndPublicMethods: true
-	checkInternalClassCaseSensitivity: true
