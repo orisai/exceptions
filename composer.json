@@ -18,6 +18,7 @@
 	"require": {
 		"php": "7.4 - 8.4",
 		"ext-mbstring": "*",
+		"nette/neon": "^3.4",
 		"nette/utils": "^4.0",
 		"symfony/polyfill-php80": "^1.18.1"
 	},
