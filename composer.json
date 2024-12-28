@@ -20,6 +20,7 @@
 		"ext-mbstring": "*",
 		"nette/neon": "^3.4",
 		"nette/utils": "^4.0",
+		"symfony/polyfill-intl-icu": "^1.31",
 		"symfony/polyfill-php80": "^1.18.1"
 	},
 	"require-dev": {
