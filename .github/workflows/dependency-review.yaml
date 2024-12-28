@@ -1,15 +1,17 @@
 name: "Dependency Review"
 
 on:
-  pull_request:
+  pull_request_target:
     types: [ "opened", "synchronize", "edited", "reopened" ]
-    paths-ignore:
-      - "docs/**"
+    paths:
+      - "*"
+      - ".github/**"
   push:
     branches:
       - "**"
-    paths-ignore:
-      - "docs/**"
+    paths:
+      - "*"
+      - ".github/**"
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
@@ -17,6 +19,7 @@ concurrency:
 
 permissions:
   contents: "read"
+  pull-requests: "write"
 
 jobs:
   dependency-review:
@@ -30,9 +33,14 @@ jobs:
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
+        with:
+          ref: "${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.sha || github.ref }}"
 
       - name: "Dependency Review"
         uses: "actions/dependency-review-action@v4"
         with:
-          base-ref: "${{ github.event.before }}"
-          head-ref: "${{ github.sha }}"
+          base-ref: "${{ github.event_name == 'push' && github.event.before || '' }}"
+          head-ref: "${{ github.event_name == 'push' && github.sha || '' }}"
+          comment-summary-in-pr: "always"
+          fail-on-severity: "high"
+          show-openssf-scorecard: false
