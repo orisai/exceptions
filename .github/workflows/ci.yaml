@@ -109,10 +109,6 @@ jobs:
             php-version: "7.4"
             composer-flags: "--prefer-lowest --prefer-stable"
             experimental: false
-          - operating-system: "ubuntu-latest"
-            php-version: "8.4"
-            composer-flags: "--ignore-platform-req=php+"
-            experimental: true
           - operating-system: "macos-latest"
             php-version: "8.4"
             composer-flags: ""
