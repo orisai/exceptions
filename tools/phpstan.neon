@@ -23,6 +23,11 @@ parameters:
 			- Orisai\Exceptions\Check\CheckedException
 
 	ignoreErrors:
+		# Internal classes in tests
+		-
+			message: '#(.+)internal(.+)Orisai(.+)#'
+			path: ../tests
+
 		# Intentional, tests reporting
 		-
 			message: "#^Method (.+)CheckedExceptionTest\\:\\:testNotAnnotated\\(\\) throws checked exception (.+)ExampleUserError but it's missing from the PHPDoc @throws tag\\.$#"
