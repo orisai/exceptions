@@ -1,12 +1,15 @@
 includes:
 	- ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
-	- phpstan.baseline.neon
+	- phpstan-baseline.php
 
 parameters:
 	phpVersion: 80400
 	level: 9
 	tmpDir: ../var/tools/PHPStan
 	resultCachePath: %currentWorkingDirectory%/var/tools/PHPStan/resultCache.php
+
+	excludePaths:
+		- phpstan-baseline.php
 
 	checkBenevolentUnionTypes: true
 	checkMissingCallableSignature: true

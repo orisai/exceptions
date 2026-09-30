@@ -143,7 +143,7 @@ jobs:
       - name: "Coveralls"
         uses: "orisai/github-workflows/.github/actions/coveralls-php-upload@v1"
         with:
-          config: "tools/.coveralls.yml"
+          config: "tests/.coveralls.yml"
           token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: "Upload logs"
