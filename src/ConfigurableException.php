@@ -14,6 +14,7 @@ use function get_class;
 use function preg_replace;
 use function str_repeat;
 use const PHP_EOL;
+use const PHP_VERSION_ID;
 
 trait ConfigurableException
 {
@@ -62,7 +63,10 @@ trait ConfigurableException
 		$reflection = new ReflectionClass(Exception::class);
 		// phpcs:enable
 		$property = $reflection->getProperty('previous');
-		$property->setAccessible(true);
+		if (PHP_VERSION_ID < 80_100) {
+			$property->setAccessible(true);
+		}
+
 		$property->setValue($this, $throwable);
 
 		return $this;
