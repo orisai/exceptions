@@ -11,6 +11,9 @@
 	<!-- Import coding-standard -->
 	<rule ref="./../vendor/orisai/coding-standard/src/ruleset-7.4.xml"/>
 
+	<!-- Generated file -->
+	<exclude-pattern>tests/phpstan-baseline.php</exclude-pattern>
+
 	<!-- Configure PSR-4 rule -->
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>

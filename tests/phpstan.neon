@@ -1,12 +1,15 @@
 includes:
 	- ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
-	- phpstan.baseline.neon
+	- phpstan-baseline.php
 
 parameters:
-	phpVersion: 80300
+	phpVersion: 80400
 	level: 9
 	tmpDir: ../var/tools/PHPStan
 	resultCachePath: %currentWorkingDirectory%/var/tools/PHPStan/resultCache.php
+
+	excludePaths:
+		- phpstan-baseline.php
 
 	checkBenevolentUnionTypes: true
 	checkMissingCallableSignature: true
@@ -23,6 +26,11 @@ parameters:
 			- Orisai\Exceptions\Check\CheckedException
 
 	ignoreErrors:
+		# Internal classes in tests
+		-
+			message: '#(.+)internal(.+)Orisai(.+)#'
+			path: ../tests
+
 		# Intentional, tests reporting
 		-
 			message: "#^Method (.+)CheckedExceptionTest\\:\\:testNotAnnotated\\(\\) throws checked exception (.+)ExampleUserError but it's missing from the PHPDoc @throws tag\\.$#"

@@ -2,11 +2,11 @@ _: list
 
 ## Config
 
-PHPCS_CONFIG=tools/phpcs.xml
-PHPSTAN_CONFIG=tools/phpstan.neon
-PHPSTAN_BASELINE_CONFIG=tools/phpstan.baseline.neon
-PHPUNIT_CONFIG=tools/phpunit.xml
-INFECTION_CONFIG=tools/infection.json
+PHPCS_CONFIG=tests/phpcs.xml
+PHPSTAN_CONFIG=tests/phpstan.neon
+PHPSTAN_BASELINE_CONFIG=tests/phpstan-baseline.php
+PHPUNIT_CONFIG=tests/phpunit.xml
+INFECTION_CONFIG=tests/infection.json
 
 ## Install
 
